@@ -2,5 +2,8 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/projekt_daxhof.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/GUI_add.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/Main.java" dialect="GenericSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/org/example/Patient.java" dialect="GenericSQL" />
   </component>
 </project>

@@ -1,6 +1,8 @@
 package org.example;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GUI_SelectOption extends JFrame {
     private JPanel contentPane;
@@ -13,5 +15,16 @@ public class GUI_SelectOption extends JFrame {
         setContentPane(contentPane);
         setTitle("Select option");
         pack();
+
+        btAdd.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                SwingUtilities.invokeLater(() -> {
+                    GUI_add gui = new GUI_add();
+                    gui.setVisible(true);
+                });
+            }
+        });
     }
 }

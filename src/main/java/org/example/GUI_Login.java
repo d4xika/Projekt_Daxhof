@@ -31,6 +31,8 @@ public class GUI_Login extends JFrame {
                         GUI_SelectOption gui = new GUI_SelectOption();
                         gui.setVisible(true);
                     });
+                }else {
+                    JOptionPane.showMessageDialog(contentPane, "falsche Zugangsdaten", "Fehler", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
