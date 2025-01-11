@@ -1,9 +1,15 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class GUI_add extends JFrame {
@@ -28,10 +34,10 @@ public class GUI_add extends JFrame {
     private JPanel contentPane;
     private JButton btReturn;
     private JButton btAdd;
-    private JTextField tfStreetNumber;
-    private JTextField tfSVN;
-    private JTextField tfPostalCode;
-    private JTextField tfBirthDate;
+    private JFormattedTextField ftfSVN;
+    private JFormattedTextField ftfBirthDate;
+    private JFormattedTextField ftfStreetNumber;
+    private JFormattedTextField ftfPostalCode;
 
     GUI_add() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -39,6 +45,7 @@ public class GUI_add extends JFrame {
         setTitle("Add Patient");
         pack();
 
+        setFormattedTextFields();
         fillBoxes();
 
         btReturn.addActionListener(new ActionListener() {
@@ -59,6 +66,29 @@ public class GUI_add extends JFrame {
         });
     }
 
+    public void setFormattedTextFields () {
+
+        NumberFormat nf = NumberFormat.getIntegerInstance();
+        nf.setGroupingUsed(false);
+
+        NumberFormatter numberFormatter = new NumberFormatter(nf);
+        numberFormatter.setValueClass(Integer.class);
+        numberFormatter.setAllowsInvalid(false);
+        numberFormatter.setMinimum(0);
+
+        DefaultFormatterFactory numberFormatterFactory = new DefaultFormatterFactory(numberFormatter);
+        ftfStreetNumber.setFormatterFactory(numberFormatterFactory);
+        ftfPostalCode.setFormatterFactory(numberFormatterFactory);
+        ftfSVN.setFormatterFactory(numberFormatterFactory);
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormatter dateFormatter = new DateFormatter(dateFormat);
+        DefaultFormatterFactory dateFormatterFactory = new DefaultFormatterFactory(dateFormatter);
+        ftfBirthDate.setFormatterFactory(dateFormatterFactory);
+
+    }
+
+
     public void fillBoxes() {
         List<Gender> genders = Patient.getGenderList();
         genders.forEach(gender -> cbGender.addItem(gender));
@@ -70,18 +100,18 @@ public class GUI_add extends JFrame {
 
     public void addNewPatient() {
 
-        if (tfFirstName.getText().isEmpty() || tfLastName.getText().isEmpty() || tfSVN.getText().isEmpty() || tfBirthDate.getText().isEmpty() || tfStreet.getText().isEmpty() ||
-                tfStreetNumber.getText().isEmpty() || tfPostalCode.getText().isEmpty() || tfCity.getText().isEmpty() || cbGender.getSelectedItem() == null ||
+        if (tfFirstName.getText().isEmpty() || tfLastName.getText().isEmpty() || ftfSVN.getText().isEmpty() || ftfBirthDate.getText().isEmpty() || tfStreet.getText().isEmpty() ||
+                ftfStreetNumber.getText().isEmpty() || ftfPostalCode.getText().isEmpty() || tfCity.getText().isEmpty() || cbGender.getSelectedItem() == null ||
                 cbNationality.getSelectedItem() == null || cbInsurance.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null, "Please enter all information");
         } else {
 
             try {
 
-                long SVN = Long.parseLong(tfSVN.getText());
-                Date birthDate = java.sql.Date.valueOf(tfBirthDate.getText());
-                int streetNumber = Integer.parseInt(tfStreetNumber.getText());
-                int postalCode = Integer.parseInt(tfPostalCode.getText());
+                long SVN = Long.parseLong(ftfSVN.getText());
+                Date birthDate = java.sql.Date.valueOf(ftfBirthDate.getText());
+                int streetNumber = Integer.parseInt(ftfStreetNumber.getText());
+                int postalCode = Integer.parseInt(ftfPostalCode.getText());
 
                 Patient.addPatient(tfFirstName.getText(), tfLastName.getText(), SVN, birthDate, tfStreet.getText(),
                         streetNumber, postalCode, tfCity.getText(), ((Gender) cbGender.getSelectedItem()).getGenderId(),

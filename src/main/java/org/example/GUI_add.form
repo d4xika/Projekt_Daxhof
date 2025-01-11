@@ -164,7 +164,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="a2d03" class="javax.swing.JTextField" binding="tfSVN">
+          <component id="51c32" class="javax.swing.JFormattedTextField" binding="ftfSVN">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -172,7 +172,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="2e151" class="javax.swing.JTextField" binding="tfBirthDate">
+          <component id="3ad38" class="javax.swing.JFormattedTextField" binding="ftfBirthDate">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -180,7 +180,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="2a991" class="javax.swing.JTextField" binding="tfStreetNumber">
+          <component id="80e46" class="javax.swing.JFormattedTextField" binding="ftfStreetNumber">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -188,7 +188,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="9c481" class="javax.swing.JTextField" binding="tfPostalCode">
+          <component id="9b9b2" class="javax.swing.JFormattedTextField" binding="ftfPostalCode">
             <constraints>
               <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
