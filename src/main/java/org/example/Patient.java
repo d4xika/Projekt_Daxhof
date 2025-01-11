@@ -23,6 +23,11 @@ public class Patient {
     private int idNationality;
     private int idInsurance;
 
+    private static final String url = "jdbc:mysql://localhost:3306/projekt_daxhof";
+    private static final String user = "root";
+    private static final String password = "mOrtible4827!#";
+
+
     public Patient(int idPatients, String firstNamePatients, String lastNamePatients, long svnPatients,
                    Date birthDatePatients, String streetPatients, int streetNumberPatients,
                    int postalCodePatients, String cityPatients, int idGender, int idNationality,
@@ -58,6 +63,120 @@ public class Patient {
                 ", idNationality=" + idNationality +
                 ", idInsurance=" + idInsurance +
                 '}';
+    }
+
+    public static List<Gender> getGenderList() {
+
+        Connection connection = null;
+        List<Gender> genders = new ArrayList<>();
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            PreparedStatement ps = connection.prepareStatement("SELECT idGender, genderPatients FROM gender");
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("idGender");
+                String gender = resultSet.getString("genderPatients");
+
+                genders.add(new Gender(id, gender));
+            }
+
+            connection.close();
+            ps.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return genders;
+    }
+
+    public static List<Nationality> getNationalityList() {
+        Connection connection = null;
+        List<Nationality> nationalities = new ArrayList<>();
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            PreparedStatement ps = connection.prepareStatement("SELECT idNationality, nationalityPatients FROM nationality");
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("idNationality");
+                String nationality = resultSet.getString("nationalityPatients");
+
+                nationalities.add(new Nationality(id, nationality));
+            }
+
+            connection.close();
+            ps.close();
+            resultSet.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return nationalities;
+    }
+
+    public static List<Insurance> getInsuranceList() {
+        Connection connection = null;
+        List<Insurance> insurances = new ArrayList<>();
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            PreparedStatement ps = connection.prepareStatement("SELECT idInsurance, insurancePatients FROM insurance");
+            ResultSet resultSet = ps.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("idInsurance");
+                String insurance = resultSet.getString("insurancePatients");
+
+                insurances.add(new Insurance(id, insurance));
+            }
+
+            connection.close();
+            ps.close();
+            resultSet.close();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return insurances;
+    }
+
+    public static void addPatient (String firstNamePatients, String lastNamePatients, long svnPatients, Date birthDatePatients,
+        String streetPatients, int streetNumberPatients, int postalCodePatients, String cityPatients,
+        int idGender, int idNationality, int idInsurance) {
+
+        Connection connection = null;
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO patients (firstNamePatients, lastNamePatients, " +
+                    "svnPatients, birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients," +
+                    "idGender, idNationality, idInsurance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+            ps.setString(1, firstNamePatients);
+            ps.setString(2, lastNamePatients);
+            ps.setLong(3, svnPatients);
+            ps.setDate(4, (java.sql.Date) birthDatePatients);
+            ps.setString(5, streetPatients);
+            ps.setInt(6, streetNumberPatients);
+            ps.setInt(7, postalCodePatients);
+            ps.setString(8, cityPatients);
+            ps.setInt(9, idGender);
+            ps.setInt(10, idNationality);
+            ps.setInt(11, idInsurance);
+
+            int rows = ps.executeUpdate();
+            System.out.println("Inserted " + rows + " rows");
+
+            connection.close();
+            ps.close();
+
+        }catch (Exception e) {
+            throw new RuntimeException();
+        }
+
     }
 
     public int getIdPatients() {
@@ -154,127 +273,6 @@ public class Patient {
 
     public void setIdInsurance(int idInsurance) {
         this.idInsurance = idInsurance;
-    }
-
-    static final String url = "jdbc:mysql://localhost:3306/projekt_daxhof";
-    static final String user = "root";
-    static final String password = "mOrtible4827!#";
-
-    public static List<Gender> getGenderList() {
-
-        Connection connection = null;
-        List<Gender> genders = new ArrayList<>();
-
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-
-            PreparedStatement ps = connection.prepareStatement("SELECT idGender, genderPatients FROM gender");
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("idGender");
-                String gender = resultSet.getString("genderPatients");
-
-                genders.add(new Gender(id, gender));
-            }
-            genders.forEach(System.out::println);
-
-            connection.close();
-            ps.close();
-            resultSet.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return genders;
-    }
-
-    public static List<Nationality> getNationalityList() {
-        Connection connection = null;
-        List<Nationality> nationalities = new ArrayList<>();
-
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-
-            PreparedStatement ps = connection.prepareStatement("SELECT idNationality, nationalityPatients FROM nationality");
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("idNationality");
-                String nationality = resultSet.getString("nationalityPatients");
-
-                nationalities.add(new Nationality(id, nationality));
-            }
-            nationalities.forEach(System.out::println);
-
-            connection.close();
-            ps.close();
-            resultSet.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return nationalities;
-    }
-
-    public static List<Insurance> getInsuranceList() {
-        Connection connection = null;
-        List<Insurance> insurances = new ArrayList<>();
-
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-
-            PreparedStatement ps = connection.prepareStatement("SELECT idInsurance, insurancePatients FROM insurance");
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("idInsurance");
-                String insurance = resultSet.getString("insurancePatients");
-
-                insurances.add(new Insurance(id, insurance));
-            }
-            insurances.forEach(System.out::println);
-
-            connection.close();
-            ps.close();
-            resultSet.close();
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return insurances;
-    }
-
-    public static void addPatient (String firstNamePatients, String lastNamePatients, long svnPatients, Date birthDatePatients,
-        String streetPatients, int streetNumberPatients, int postalCodePatients, String cityPatients,
-        int idGender, int idNationality, int idInsurance) {
-
-        Connection connection = null;
-
-        try {
-            connection = DriverManager.getConnection(url);
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO patients (firstNamePatients, lastNamePatients, " +
-                    "svnPatients, birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients," +
-                    "idGender, idNationality, idInsurance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-            ps.setString(1, firstNamePatients);
-            ps.setString(2, lastNamePatients);
-            ps.setLong(3, svnPatients);
-            ps.setDate(4, (java.sql.Date) birthDatePatients);
-            ps.setString(5, streetPatients);
-            ps.setInt(6, streetNumberPatients);
-            ps.setInt(7, postalCodePatients);
-            ps.setString(8, cityPatients);
-            ps.setInt(9, idGender);
-            ps.setInt(10, idNationality);
-            ps.setInt(11, idInsurance);
-
-            int rows = ps.executeUpdate();
-            System.out.println("Inserted " + rows + " rows");
-
-            connection.close();
-            ps.close();
-
-        }catch (Exception e) {
-            throw new RuntimeException();
-        }
-
     }
 
 }

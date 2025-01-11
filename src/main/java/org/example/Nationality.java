@@ -12,10 +12,7 @@ public class Nationality {
 
     @Override
     public String toString() {
-        return "Nationality{" +
-                "nationalityId=" + nationalityId +
-                ", nationalityName='" + nationalityName + '\'' +
-                '}';
+        return nationalityName;
     }
 
     public int getNationalityId() {

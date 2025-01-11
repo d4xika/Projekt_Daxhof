@@ -6,19 +6,14 @@ import java.awt.event.ActionListener;
 import java.sql.*;
 import java.util.List;
 
-
 public class GUI_add extends JFrame {
     private JTextField tfFirstName;
     private JTextField tfLastName;
-    private JTextField tfSVN;
-    private JTextField tfBirthDate;
     private JTextField tfStreet;
-    private JTextField tfStreetNumber;
-    private JTextField tfPostalCode;
     private JTextField tfCity;
-    private JComboBox<String> cbGender;
-    private JComboBox<String> cbNationality;
-    private JComboBox<String> cbInsurance;
+    private JComboBox<Gender> cbGender;
+    private JComboBox<Nationality> cbNationality;
+    private JComboBox<Insurance> cbInsurance;
     private JLabel lFirstName;
     private JLabel lLastName;
     private JLabel lSVN;
@@ -33,6 +28,10 @@ public class GUI_add extends JFrame {
     private JPanel contentPane;
     private JButton btReturn;
     private JButton btAdd;
+    private JTextField tfStreetNumber;
+    private JTextField tfSVN;
+    private JTextField tfPostalCode;
+    private JTextField tfBirthDate;
 
     GUI_add() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,72 +59,42 @@ public class GUI_add extends JFrame {
         });
     }
 
-    String url = "jdbc:mysql://localhost:3306/projekt_daxhof";
-    String user = "root";
-    String password = "mOrtible4827!#";
-    Connection connection = null;
-
-    public void fillBoxes () {
-        List<Gender> genders= Patient.getGenderList();
-        genders.forEach(gender -> cbGender.addItem(gender.getGenderName()));
-        List<Nationality> nationalities= Patient.getNationalityList();
-        nationalities.forEach(nationality -> cbNationality.addItem(nationality.getNationalityName()));
-        List<Insurance> insurances= Patient.getInsuranceList();
-        insurances.forEach(insurance -> cbInsurance.addItem(insurance.getInsuranceName()));
+    public void fillBoxes() {
+        List<Gender> genders = Patient.getGenderList();
+        genders.forEach(gender -> cbGender.addItem(gender));
+        List<Nationality> nationalities = Patient.getNationalityList();
+        nationalities.forEach(nationality -> cbNationality.addItem(nationality));
+        List<Insurance> insurances = Patient.getInsuranceList();
+        insurances.forEach(insurance -> cbInsurance.addItem(insurance));
     }
 
     public void addNewPatient() {
 
-        boolean success = false;
+        if (tfFirstName.getText().isEmpty() || tfLastName.getText().isEmpty() || tfSVN.getText().isEmpty() || tfBirthDate.getText().isEmpty() || tfStreet.getText().isEmpty() ||
+                tfStreetNumber.getText().isEmpty() || tfPostalCode.getText().isEmpty() || tfCity.getText().isEmpty() || cbGender.getSelectedItem() == null ||
+                cbNationality.getSelectedItem() == null || cbInsurance.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Please enter all information");
+        } else {
 
-        while (!success) {
-
-            if (tfFirstName.getText().isEmpty() || tfLastName.getText().isEmpty() || tfSVN.getText().isEmpty() || tfBirthDate.getText().isEmpty() || tfStreet.getText().isEmpty() ||
-                    tfStreetNumber.getText().isEmpty() || tfPostalCode.getText().isEmpty() || tfCity.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Please enter all information");
-                break;
-            }
-
-            long SVN = 0;
             try {
-                SVN = Long.parseLong(tfSVN.getText());
+
+                long SVN = Long.parseLong(tfSVN.getText());
+                Date birthDate = java.sql.Date.valueOf(tfBirthDate.getText());
+                int streetNumber = Integer.parseInt(tfStreetNumber.getText());
+                int postalCode = Integer.parseInt(tfPostalCode.getText());
+
+                Patient.addPatient(tfFirstName.getText(), tfLastName.getText(), SVN, birthDate, tfStreet.getText(),
+                        streetNumber, postalCode, tfCity.getText(), ((Gender) cbGender.getSelectedItem()).getGenderId(),
+                        ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
+                        ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
+                System.out.println("Patient successfully added!");
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Please enter a valid SVN number");
-                break;
-            }
-
-            Date birthDate = null;
-            try {
-                birthDate = java.sql.Date.valueOf(tfBirthDate.getText());
+                JOptionPane.showMessageDialog(null, "Please enter a valid number format in one of the fields!");
             } catch (IllegalArgumentException e) {
-                JOptionPane.showMessageDialog(null, "Please enter a valid birth date");
-                break;
+                JOptionPane.showMessageDialog(null, "Please enter a valid birth date: use the format yyyy-mm-dd!");
             }
-
-            int streetNumber = 0;
-            try {
-                streetNumber = Integer.parseInt(tfStreet.getText());
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Please enter a valid street number");
-                break;
-            }
-
-            int postalCode = 0;
-            try {
-                postalCode = Integer.parseInt(tfPostalCode.getText());
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Please enter a valid postal code");
-                break;
-            }
-
-            Patient.addPatient(tfFirstName.getText(), tfLastName.getText(), SVN, birthDate, tfStreet.getText(),
-                    streetNumber, postalCode, tfCity.getText(), cbGender.getSelectedIndex(), cbNationality.getSelectedIndex(),
-                    cbInsurance.getSelectedIndex());
-            success = true;
-            System.out.println("patient successfully added");
         }
     }
-
 
 
 }

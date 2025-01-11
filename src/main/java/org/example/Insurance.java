@@ -12,10 +12,7 @@ public class Insurance {
 
     @Override
     public String toString() {
-        return "Insurance{" +
-                "insuranceId=" + insuranceId +
-                ", insuranceName='" + insuranceName + '\'' +
-                '}';
+        return insuranceName;
     }
 
     public int getInsuranceId() {

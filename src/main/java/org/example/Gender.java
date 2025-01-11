@@ -12,10 +12,7 @@ public class Gender {
 
     @Override
     public String toString() {
-        return "Gender{" +
-                "genderId=" + genderId +
-                ", genderName='" + genderName + '\'' +
-                '}';
+        return genderName;
     }
 
     public int getGenderId() {
