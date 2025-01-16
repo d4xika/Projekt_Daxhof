@@ -25,7 +25,7 @@ public class Patient {
 
     private static final String url = "jdbc:mysql://localhost:3306/projekt_daxhof";
     private static final String user = "root";
-    private static final String password = "DimMSP19032004!!";
+    private static final String password = "mOrtible4827!#";
     
 
     public Patient(int idPatients, String firstNamePatients, String lastNamePatients, long svnPatients,
@@ -128,14 +128,14 @@ public class Patient {
 
     public static List<Patient> getAllPatients () {
 
-        List<Patient> patients = new ArrayList<>();
+        List<Patient> patients;
         Connection connection = null;
 
         try {
             connection = DriverManager.getConnection(url, user, password);
 
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients");
-            patients = returnPatients(connection, ps);
+            patients = returnPatients(ps);
 
             connection.close();
             ps.close();
@@ -147,7 +147,33 @@ public class Patient {
         return patients;
     }
 
-    private static List<Patient> returnPatients(Connection connection, PreparedStatement ps) throws SQLException {
+    public static List<Patient> searchPatients (String namePatient) {
+
+        Connection connection = null;
+        List<Patient> patients;
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients WHERE firstNamePatients LIKE ? " +
+                    "OR lastNamePatients LIKE ? " +
+                    "OR concat(firstNamePatients, ' ', lastNamePatients) LIKE ?");
+            namePatient = "%" + namePatient + "%";
+            ps.setString(1, namePatient);
+            ps.setString(2, namePatient);
+            ps.setString(3, namePatient);
+            patients = returnPatients(ps);
+
+            connection.close();
+            ps.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return patients;
+    }
+
+    private static List<Patient> returnPatients(PreparedStatement ps) throws SQLException {
 
         List<Patient> patients = new ArrayList<>();
         ResultSet resultSet = ps.executeQuery();
@@ -156,7 +182,7 @@ public class Patient {
             int id = resultSet.getInt("idPatients");
             String firstName = resultSet.getString("firstNamePatients");
             String lastName = resultSet.getString("lastNamePatients");
-            long svn = resultSet.getLong("svnPatients");
+            long svn = Long.parseLong(resultSet.getString("svnPatients"));
             Date birthDate = resultSet.getDate("birthDatePatients");
             String street = resultSet.getString("streetPatients");
             int streetNumber = resultSet.getInt("streetNumberPatients");
@@ -170,10 +196,8 @@ public class Patient {
                     city, idGender, idNationality, idInsurance));
         }
 
-        connection.close();
         ps.close();
         resultSet.close();
-
         return patients;
 
     }
@@ -214,43 +238,10 @@ public class Patient {
 
     }
 
-    public static List<Patient> searchPatients (String namePatient) {
-
-        Connection connection = null;
-        List<Patient> patients = new ArrayList<>();
-
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients WHERE concat(firstNamePatients, ' ', lastNamePatients) LIKE ?");
-            ps.setString(1, namePatient);
-            patients = returnPatients(connection, ps);
-
-            connection.close();
-            ps.close();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return patients;
-    }
-
     @Override
     public String toString() {
-        return "Patient{" +
-                "idPatients=" + idPatients +
-                ", firstNamePatients='" + firstNamePatients + '\'' +
-                ", lastNamePatients='" + lastNamePatients + '\'' +
-                ", svnPatients=" + svnPatients +
-                ", birthDatePatients=" + birthDatePatients +
-                ", streetPatients='" + streetPatients + '\'' +
-                ", streetNumberPatients=" + streetNumberPatients +
-                ", postalCodePatients=" + postalCodePatients +
-                ", cityPatients='" + cityPatients + '\'' +
-                ", idGender=" + idGender +
-                ", idNationality=" + idNationality +
-                ", idInsurance=" + idInsurance +
-                '}';
+        return idPatients + firstNamePatients + lastNamePatients + svnPatients + birthDatePatients + streetPatients +
+                streetNumberPatients + postalCodePatients + cityPatients + idGender + idNationality + idInsurance;
     }
 
     public int getIdPatients() {

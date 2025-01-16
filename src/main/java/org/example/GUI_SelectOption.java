@@ -1,6 +1,7 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ public class GUI_SelectOption extends JFrame {
     private JButton btSearch;
     private JScrollPane spPatientsFound;
     private JButton btEdit;
-    private JList<Patient> listPatients;
     private JButton btAdd;
     private JButton btDelete;
+    private JTable tPatients;
 
     public GUI_SelectOption() {
 
@@ -40,31 +41,49 @@ public class GUI_SelectOption extends JFrame {
         btSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                updateScrollPanel();
+                fillScrollPanel();
+
             }
         });
     }
 
     public void fillScrollPanel () {
 
-        DefaultListModel<Patient> listModel = new DefaultListModel<Patient>();
-        List<Patient> patients = Patient.getAllPatients();
+        List<Patient> patients;
 
-        patients.forEach(listModel::addElement);
+        if(tfPatientName.getText().isEmpty()) {
+            patients = Patient.getAllPatients();
+        }else {
+            patients = Patient.searchPatients(tfPatientName.getText());
+        }
 
-        if (!listModel.isEmpty()) {
-            listPatients.setModel(listModel);
+        DefaultTableModel tableModel = new DefaultTableModel();
+        tableModel.addColumn("ID");
+        tableModel.addColumn("first Name");
+        tableModel.addColumn("last Name");
+        tableModel.addColumn("SVN Number");
+        tableModel.addColumn("Birth Date");
+        tableModel.addColumn("Street");
+        tableModel.addColumn("Street Number");
+        tableModel.addColumn("Postal Code");
+        tableModel.addColumn("City");
+        tableModel.addColumn("Gender");
+        tableModel.addColumn("Nationality");
+        tableModel.addColumn("Insurance");
+
+        for (Patient patient : patients) {
+            tableModel.addRow(new Object[] {
+                patient.getIdPatients(), patient.getFirstNamePatients(), patient.getLastNamePatients(),
+                patient.getSvnPatients(), patient.getBirthDatePatients(), patient.getStreetPatients(),
+                patient.getStreetNumberPatients(), patient.getPostalCodePatients(), patient.getCityPatients(),
+                patient.getIdGender(), patient.getIdNationality(), patient.getIdInsurance()
+            });
+        }
+
+        tPatients.setModel(tableModel);
+        if (patients.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No patients found");
         }
     }
 
-    public void updateScrollPanel () {
-
-        DefaultListModel<Patient> listModel = new DefaultListModel<Patient>();
-        List<Patient> patients = Patient.searchPatients(tfPatientName.getText());
-        patients.forEach(listModel::addElement);
-
-        if (!listModel.isEmpty()) {
-            listPatients.setModel(listModel);
-        }
-    }
 }
