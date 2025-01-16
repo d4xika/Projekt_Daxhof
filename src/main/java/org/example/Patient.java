@@ -25,8 +25,8 @@ public class Patient {
 
     private static final String url = "jdbc:mysql://localhost:3306/projekt_daxhof";
     private static final String user = "root";
-    private static final String password = "mOrtible4827!#";
-
+    private static final String password = "DimMSP19032004!!";
+    
 
     public Patient(int idPatients, String firstNamePatients, String lastNamePatients, long svnPatients,
                    Date birthDatePatients, String streetPatients, int streetNumberPatients,
@@ -54,6 +54,7 @@ public class Patient {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
+            System.out.println("hi");
 
             PreparedStatement ps = connection.prepareStatement("SELECT idGender, genderPatients FROM gender");
             ResultSet resultSet = ps.executeQuery();

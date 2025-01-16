@@ -22,6 +22,8 @@ public class GUI_SelectOption extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
         setTitle("Edit Patient");
+        setTitle("Select option");
+        setLocationRelativeTo(null);
         pack();
 
         fillScrollPanel();
