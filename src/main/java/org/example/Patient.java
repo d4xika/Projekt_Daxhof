@@ -47,24 +47,6 @@ public class Patient {
 
     }
 
-    @Override
-    public String toString() {
-        return "Patient{" +
-                "idPatients=" + idPatients +
-                ", firstNamePatients='" + firstNamePatients + '\'' +
-                ", lastNamePatients='" + lastNamePatients + '\'' +
-                ", svnPatients=" + svnPatients +
-                ", birthDatePatients=" + birthDatePatients +
-                ", streetPatients='" + streetPatients + '\'' +
-                ", streetNumberPatients=" + streetNumberPatients +
-                ", postalCodePatients=" + postalCodePatients +
-                ", cityPatients='" + cityPatients + '\'' +
-                ", idGender=" + idGender +
-                ", idNationality=" + idNationality +
-                ", idInsurance=" + idInsurance +
-                '}';
-    }
-
     public static List<Gender> getGenderList() {
 
         Connection connection = null;
@@ -143,6 +125,58 @@ public class Patient {
         return insurances;
     }
 
+    public static List<Patient> getAllPatients () {
+
+        List<Patient> patients = new ArrayList<>();
+        Connection connection = null;
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients");
+            patients = returnPatients(connection, ps);
+
+            connection.close();
+            ps.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return patients;
+    }
+
+    private static List<Patient> returnPatients(Connection connection, PreparedStatement ps) throws SQLException {
+
+        List<Patient> patients = new ArrayList<>();
+        ResultSet resultSet = ps.executeQuery();
+
+        while(resultSet.next()) {
+            int id = resultSet.getInt("idPatients");
+            String firstName = resultSet.getString("firstNamePatients");
+            String lastName = resultSet.getString("lastNamePatients");
+            long svn = resultSet.getLong("svnPatients");
+            Date birthDate = resultSet.getDate("birthDatePatients");
+            String street = resultSet.getString("streetPatients");
+            int streetNumber = resultSet.getInt("streetNumberPatients");
+            int postalCode = resultSet.getInt("postalCodePatients");
+            String city = resultSet.getString("cityPatients");
+            int idGender = resultSet.getInt("idGender");
+            int idNationality = resultSet.getInt("idNationality");
+            int idInsurance = resultSet.getInt("idInsurance");
+
+            patients.add(new Patient(id, firstName, lastName, svn, birthDate, street, streetNumber, postalCode,
+                    city, idGender, idNationality, idInsurance));
+        }
+
+        connection.close();
+        ps.close();
+        resultSet.close();
+
+        return patients;
+
+    }
+
     public static void addPatient (String firstNamePatients, String lastNamePatients, long svnPatients, Date birthDatePatients,
         String streetPatients, int streetNumberPatients, int postalCodePatients, String cityPatients,
         int idGender, int idNationality, int idInsurance) {
@@ -174,9 +208,48 @@ public class Patient {
             ps.close();
 
         }catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
 
+    }
+
+    public static List<Patient> searchPatients (String namePatient) {
+
+        Connection connection = null;
+        List<Patient> patients = new ArrayList<>();
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients WHERE concat(firstNamePatients, ' ', lastNamePatients) LIKE ?");
+            ps.setString(1, namePatient);
+            patients = returnPatients(connection, ps);
+
+            connection.close();
+            ps.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return patients;
+    }
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "idPatients=" + idPatients +
+                ", firstNamePatients='" + firstNamePatients + '\'' +
+                ", lastNamePatients='" + lastNamePatients + '\'' +
+                ", svnPatients=" + svnPatients +
+                ", birthDatePatients=" + birthDatePatients +
+                ", streetPatients='" + streetPatients + '\'' +
+                ", streetNumberPatients=" + streetNumberPatients +
+                ", postalCodePatients=" + postalCodePatients +
+                ", cityPatients='" + cityPatients + '\'' +
+                ", idGender=" + idGender +
+                ", idNationality=" + idNationality +
+                ", idInsurance=" + idInsurance +
+                '}';
     }
 
     public int getIdPatients() {
