@@ -14,6 +14,7 @@ public class GUI_SelectOption extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
         setTitle("Select option");
+        setLocationRelativeTo(null);
         pack();
 
         btAdd.addActionListener(new ActionListener() {

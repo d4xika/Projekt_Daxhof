@@ -37,6 +37,7 @@ public class GUI_add extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
         setTitle("Add Patient");
+        setLocationRelativeTo(null);
         pack();
 
         fillBoxes();
