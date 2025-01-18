@@ -40,7 +40,7 @@ public class GUI_add extends JFrame {
         setLocationRelativeTo(null);
         pack();
 
-        fillBoxes();
+        fillAddBoxes();
 
         btReturn.addActionListener(new ActionListener() {
             @Override
@@ -55,46 +55,80 @@ public class GUI_add extends JFrame {
         btAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addNewPatient();
+                boolean added = addNewPatient();
+                if (added) {
+                    dispose();
+                    SwingUtilities.invokeLater(() -> {
+                        GUI_SelectOption gui = new GUI_SelectOption();
+                        gui.setVisible(true);
+                    });
+                }
             }
         });
     }
 
-    public void fillBoxes() {
-        List<Gender> genders = Patient.getGenderList();
-        genders.forEach(gender -> cbGender.addItem(gender));
-        List<Nationality> nationalities = Patient.getNationalityList();
-        nationalities.forEach(nationality -> cbNationality.addItem(nationality));
-        List<Insurance> insurances = Patient.getInsuranceList();
-        insurances.forEach(insurance -> cbInsurance.addItem(insurance));
+    public void fillAddBoxes() {
+        fillBoxes(cbGender, cbNationality, cbInsurance);
     }
 
-    public void addNewPatient() {
+    public static void fillBoxes(JComboBox<Gender> cbGender, JComboBox<Nationality> cbNationality, JComboBox<Insurance> cbInsurance) {
+        List<Gender> genders = Patient.getGenderList();
+        genders.forEach(cbGender::addItem);
+        List<Nationality> nationalities = Patient.getNationalityList();
+        nationalities.forEach(cbNationality::addItem);
+        List<Insurance> insurances = Patient.getInsuranceList();
+        insurances.forEach(cbInsurance::addItem);
+    }
 
-        if (tfFirstName.getText().isEmpty() || tfLastName.getText().isEmpty() || tfSVN.getText().isEmpty() || tfBirthDate.getText().isEmpty() || tfStreet.getText().isEmpty() ||
-                tfStreetNumber.getText().isEmpty() || tfPostalCode.getText().isEmpty() || tfCity.getText().isEmpty() || cbGender.getSelectedItem() == null ||
+    public boolean addNewPatient() {
+
+        return savePatient(0, tfFirstName.getText(), tfLastName.getText(), tfSVN.getText(), tfBirthDate.getText(), tfStreet.getText(),
+                tfStreetNumber.getText(), tfPostalCode.getText(), tfCity.getText(), cbGender, cbNationality, cbInsurance);
+    }
+
+    public static boolean savePatient (int idPatients, String firstNamePatients, String lastNamePatients, String svnPatients, String birthDatePatients,
+                                    String streetPatients, String streetNumberPatients, String postalCodePatients, String cityPatients,
+                                    JComboBox<Gender> cbGender, JComboBox<Nationality> cbNationality, JComboBox<Insurance> cbInsurance) {
+
+        boolean success = false;
+
+        if (firstNamePatients.isEmpty() || lastNamePatients.isEmpty() || svnPatients.isEmpty() || birthDatePatients==null || streetPatients.isEmpty() ||
+                streetNumberPatients.isEmpty() || postalCodePatients.isEmpty() || cityPatients.isEmpty() || cbGender.getSelectedItem() == null ||
                 cbNationality.getSelectedItem() == null || cbInsurance.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(null, "Please enter all information");
         } else {
 
             try {
 
-                long SVN = Long.parseLong(tfSVN.getText());
-                Date birthDate = java.sql.Date.valueOf(tfBirthDate.getText());
-                int streetNumber = Integer.parseInt(tfStreetNumber.getText());
-                int postalCode = Integer.parseInt(tfPostalCode.getText());
+                long SVN = Long.parseLong(svnPatients);
+                Date birthDate = java.sql.Date.valueOf(birthDatePatients);
+                int streetNumber = Integer.parseInt(streetNumberPatients);
+                int postalCode = Integer.parseInt(postalCodePatients);
 
-                Patient.addPatient(tfFirstName.getText(), tfLastName.getText(), SVN, birthDate, tfStreet.getText(),
-                        streetNumber, postalCode, tfCity.getText(), ((Gender) cbGender.getSelectedItem()).getGenderId(),
-                        ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
-                        ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
-                System.out.println("Patient successfully added!");
+                if (idPatients == 0) {
+                    Patient.addPatient(firstNamePatients, lastNamePatients, SVN, birthDate, streetPatients,
+                            streetNumber, postalCode, cityPatients, ((Gender) cbGender.getSelectedItem()).getGenderId(),
+                            ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
+                            ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
+                    System.out.println("Patient successfully added!");
+                    success = true;
+                }else {
+                    Patient.editPatient(idPatients, firstNamePatients, lastNamePatients, SVN, birthDate, streetPatients,
+                            streetNumber, postalCode, cityPatients, ((Gender) cbGender.getSelectedItem()).getGenderId(),
+                            ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
+                            ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
+                    System.out.println("Patient successfully updated!");
+                    success = true;
+                }
+
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid number format in one of the fields!");
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid birth date: use the format yyyy-mm-dd!");
             }
         }
+        return success;
+
     }
 
 

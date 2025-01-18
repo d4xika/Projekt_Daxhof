@@ -15,6 +15,14 @@ public class Gender {
         return genderName;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Gender gender = (Gender) obj;
+        return this.genderId == gender.genderId;
+    }
+
     public int getGenderId() {
         return genderId;
     }

@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.event.ComponentAdapter;
 import java.util.List;
 
 public class GUI_SelectOption extends JFrame {
@@ -22,7 +22,6 @@ public class GUI_SelectOption extends JFrame {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
-        setTitle("Edit Patient");
         setTitle("Select option");
         setLocationRelativeTo(null);
         pack();
@@ -32,6 +31,7 @@ public class GUI_SelectOption extends JFrame {
         btAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                dispose();
                 SwingUtilities.invokeLater(() -> {
                     GUI_add gui = new GUI_add();
                     gui.setVisible(true);
@@ -45,6 +45,30 @@ public class GUI_SelectOption extends JFrame {
 
             }
         });
+
+        btEdit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int row = tPatients.getSelectedRow();
+
+                if (row > 0) {
+
+                    DefaultTableModel model = (DefaultTableModel) tPatients.getModel();
+                    int id = (int) model.getValueAt(row, 0);
+
+                    dispose();
+                    SwingUtilities.invokeLater(() -> {
+                        GUI_edit gui = new GUI_edit(id);
+                        gui.setVisible(true);
+                    });
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "Please select a patient");
+                }
+            }
+        });
+
     }
 
     public void fillScrollPanel () {
@@ -57,7 +81,13 @@ public class GUI_SelectOption extends JFrame {
             patients = Patient.searchPatients(tfPatientName.getText());
         }
 
-        DefaultTableModel tableModel = new DefaultTableModel();
+        DefaultTableModel tableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
         tableModel.addColumn("ID");
         tableModel.addColumn("first Name");
         tableModel.addColumn("last Name");

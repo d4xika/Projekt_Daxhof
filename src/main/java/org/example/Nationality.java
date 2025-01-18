@@ -15,6 +15,14 @@ public class Nationality {
         return nationalityName;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Nationality nationality = (Nationality) obj;
+        return this.nationalityId == nationality.nationalityId;
+    }
+
     public int getNationalityId() {
         return nationalityId;
     }
