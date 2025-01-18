@@ -4,8 +4,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
 import java.util.List;
+import java.util.Locale;
 
 public class GUI_SelectOption extends JFrame {
     private JPanel contentPane;
@@ -26,7 +26,7 @@ public class GUI_SelectOption extends JFrame {
         setLocationRelativeTo(null);
         pack();
 
-        fillScrollPanel();
+        fillPatientTable();
 
         btAdd.addActionListener(new ActionListener() {
             @Override
@@ -41,7 +41,7 @@ public class GUI_SelectOption extends JFrame {
         btSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillScrollPanel();
+                fillPatientTable();
 
             }
         });
@@ -52,7 +52,7 @@ public class GUI_SelectOption extends JFrame {
 
                 int row = tPatients.getSelectedRow();
 
-                if (row > 0) {
+                if (row >= 0) {
 
                     DefaultTableModel model = (DefaultTableModel) tPatients.getModel();
                     int id = (int) model.getValueAt(row, 0);
@@ -69,9 +69,36 @@ public class GUI_SelectOption extends JFrame {
             }
         });
 
+        btDelete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int row = tPatients.getSelectedRow();
+
+                if (row >= 0) {
+
+                    DefaultTableModel model = (DefaultTableModel) tPatients.getModel();
+                    int id = (int) model.getValueAt(row, 0);
+
+
+                    int confirm = JOptionPane.showConfirmDialog(null,
+                            "Are you sure you want to delete this patient?",
+                            "Delete Patient",
+                            JOptionPane.YES_NO_OPTION);
+
+                    if (confirm == JOptionPane.YES_OPTION) {
+                        Patient.deletePatient(id);
+                        fillPatientTable();
+                    }
+
+                }else {
+                    JOptionPane.showMessageDialog(null, "Please select a patient");
+                }
+            }
+        });
     }
 
-    public void fillScrollPanel () {
+    public void fillPatientTable() {
 
         List<Patient> patients;
 

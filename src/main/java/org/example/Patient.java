@@ -2,6 +2,7 @@ package org.example;
 
 import com.mysql.cj.xdevapi.PreparableStatement;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -309,6 +310,8 @@ public class Patient {
 
             setPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
 
+            ps.close();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -329,6 +332,8 @@ public class Patient {
 
             ps.setInt(12, id);
             setPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
+
+            ps.close();
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -352,10 +357,71 @@ public class Patient {
         ps.setInt(10, idNationality);
         ps.setInt(11, idInsurance);
 
-        int rows = ps.executeUpdate();
+        ps.executeUpdate();
 
         connection.close();
         ps.close();
+    }
+
+    public static boolean savePatient (int idPatients, String firstNamePatients, String lastNamePatients, String svnPatients, String birthDatePatients,
+                                       String streetPatients, String streetNumberPatients, String postalCodePatients, String cityPatients,
+                                       JComboBox<Gender> cbGender, JComboBox<Nationality> cbNationality, JComboBox<Insurance> cbInsurance) {
+
+        boolean success = false;
+
+        if (firstNamePatients.isEmpty() || lastNamePatients.isEmpty() || svnPatients.isEmpty() || birthDatePatients==null || streetPatients.isEmpty() ||
+                streetNumberPatients.isEmpty() || postalCodePatients.isEmpty() || cityPatients.isEmpty() || cbGender.getSelectedItem() == null ||
+                cbNationality.getSelectedItem() == null || cbInsurance.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(null, "Please enter all information");
+        } else {
+
+            try {
+
+                long SVN = Long.parseLong(svnPatients);
+                java.sql.Date birthDate = java.sql.Date.valueOf(birthDatePatients);
+                int streetNumber = Integer.parseInt(streetNumberPatients);
+                int postalCode = Integer.parseInt(postalCodePatients);
+
+                if (idPatients == 0) {
+                    Patient.addPatient(firstNamePatients, lastNamePatients, SVN, birthDate, streetPatients,
+                            streetNumber, postalCode, cityPatients, ((Gender) cbGender.getSelectedItem()).getGenderId(),
+                            ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
+                            ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
+                    System.out.println("Patient successfully added!");
+                    success = true;
+                }else {
+                    Patient.editPatient(idPatients, firstNamePatients, lastNamePatients, SVN, birthDate, streetPatients,
+                            streetNumber, postalCode, cityPatients, ((Gender) cbGender.getSelectedItem()).getGenderId(),
+                            ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
+                            ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
+                    System.out.println("Patient successfully updated!");
+                    success = true;
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid number format in one of the fields!");
+            } catch (IllegalArgumentException e) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid birth date: use the format yyyy-mm-dd!");
+            }
+        }
+        return success;
+
+    }
+
+    public static void deletePatient (int id) {
+
+        Connection connection = null;
+
+        try {
+            connection = DriverManager.getConnection(url, user, password);
+
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM patients WHERE idPatients = ?");
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

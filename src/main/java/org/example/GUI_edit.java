@@ -92,7 +92,7 @@ public class GUI_edit extends JFrame {
 
     public boolean editPatient(int id) {
 
-        return GUI_add.savePatient(id, tfFirstName.getText(), tfLastName.getText(), tfSVN.getText(), tfBirthDate.getText(), tfStreet.getText(),
+        return Patient.savePatient(id, tfFirstName.getText(), tfLastName.getText(), tfSVN.getText(), tfBirthDate.getText(), tfStreet.getText(),
                 tfStreetNumber.getText(), tfPostalCode.getText(), tfCity.getText(), cbGender, cbNationality, cbInsurance);
     }
 
