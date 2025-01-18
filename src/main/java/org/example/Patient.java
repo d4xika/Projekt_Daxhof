@@ -54,7 +54,6 @@ public class Patient {
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-            System.out.println("hi");
 
             PreparedStatement ps = connection.prepareStatement("SELECT idGender, genderPatients FROM gender");
             ResultSet resultSet = ps.executeQuery();
