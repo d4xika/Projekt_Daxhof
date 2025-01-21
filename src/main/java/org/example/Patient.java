@@ -1,6 +1,6 @@
 package org.example;
 
-import com.mysql.cj.xdevapi.PreparableStatement;
+//import com.mysql.cj.xdevapi.PreparableStatement;
 
 import javax.swing.*;
 import java.sql.*;
@@ -28,7 +28,7 @@ public class Patient {
 
     private static final String url = "jdbc:mysql://localhost:3306/projekt_daxhof";
     private static final String user = "root";
-    private static final String password = "mOrtible4827!#";
+    private static final String password = "DimMSP19032004!!";
 
 
     public Patient(int idPatients, String firstNamePatients, String lastNamePatients, long svnPatients,
