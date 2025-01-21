@@ -3,8 +3,6 @@ package org.example;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.util.List;
 
 public class GUI_edit extends JFrame {
     private JLabel lFirstName;
