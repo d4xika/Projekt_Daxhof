@@ -1,7 +1,5 @@
 package org.example;
 
-//import com.mysql.cj.xdevapi.PreparableStatement;
-
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,9 +8,6 @@ import java.util.List;
 
 public class Patient {
 
-    /**
-     * Attribute des Patienten
-     */
     private int idPatients;
     private String firstNamePatients;
     private String lastNamePatients;
@@ -28,7 +23,7 @@ public class Patient {
 
     private static final String url = "jdbc:mysql://localhost:3306/projekt_daxhof";
     private static final String user = "root";
-    private static final String password = "DimMSP19032004!!";
+    private static final String password = "mOrtible4827!#";
 
 
     public Patient(int idPatients, String firstNamePatients, String lastNamePatients, long svnPatients,
@@ -52,24 +47,28 @@ public class Patient {
 
     public static List<Gender> getGenderList() {
 
-        Connection connection = null;
+        Connection connection;
         List<Gender> genders = new ArrayList<>();
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-
-            PreparedStatement ps = connection.prepareStatement("SELECT idGender, genderPatients FROM gender");
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("idGender");
-                String gender = resultSet.getString("genderPatients");
-
-                genders.add(new Gender(id, gender));
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
+            else {
+                PreparedStatement ps = connection.prepareStatement("SELECT idGender, genderPatients FROM gender");
+                ResultSet resultSet = ps.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("idGender");
+                    String gender = resultSet.getString("genderPatients");
 
-            connection.close();
-            ps.close();
-            resultSet.close();
+                    genders.add(new Gender(id, gender));
+                }
+
+                connection.close();
+                ps.close();
+                resultSet.close();
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -78,18 +77,26 @@ public class Patient {
     }
 
     public static Gender getGender(int id) {
-        Connection connection = null;
-        Gender g;
+        Connection connection;
+        Gender g = null;
 
         try {
             connection = DriverManager.getConnection(url, user, password);
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
+            }
+            else {
+                PreparedStatement ps = connection.prepareStatement("SELECT idGender, genderPatients FROM gender WHERE idGender = ?");
+                ps.setInt(1, id);
 
-            PreparedStatement ps = connection.prepareStatement("SELECT idGender, genderPatients FROM gender WHERE idGender = ?");
-            ps.setInt(1, id);
+                ResultSet resultSet = ps.executeQuery();
+                resultSet.next();
+                g = new Gender(resultSet.getInt("idGender"), resultSet.getString("genderPatients"));
 
-            ResultSet resultSet = ps.executeQuery();
-            resultSet.next();
-            g = new Gender(resultSet.getInt("idGender"), resultSet.getString("genderPatients"));
+                ps.close();
+                resultSet.close();
+                connection.close();
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -98,24 +105,28 @@ public class Patient {
     }
 
     public static List<Nationality> getNationalityList() {
-        Connection connection = null;
+        Connection connection;
         List<Nationality> nationalities = new ArrayList<>();
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-
-            PreparedStatement ps = connection.prepareStatement("SELECT idNationality, nationalityPatients FROM nationality");
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("idNationality");
-                String nationality = resultSet.getString("nationalityPatients");
-
-                nationalities.add(new Nationality(id, nationality));
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
+            else {
+                PreparedStatement ps = connection.prepareStatement("SELECT idNationality, nationalityPatients FROM nationality");
+                ResultSet resultSet = ps.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("idNationality");
+                    String nationality = resultSet.getString("nationalityPatients");
 
-            connection.close();
-            ps.close();
-            resultSet.close();
+                    nationalities.add(new Nationality(id, nationality));
+                }
+
+                connection.close();
+                ps.close();
+                resultSet.close();
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -124,19 +135,26 @@ public class Patient {
     }
 
     public static Nationality getNationality(int id) {
-        Connection connection = null;
-        Nationality n;
+        Connection connection;
+        Nationality n = null;
 
         try {
             connection = DriverManager.getConnection(url, user, password);
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
+            }
+            else {
+                PreparedStatement ps = connection.prepareStatement("SELECT idNationality, nationalityPatients FROM nationality WHERE idNationality = ?");
+                ps.setInt(1, id);
 
-            PreparedStatement ps = connection.prepareStatement("SELECT idNationality, nationalityPatients FROM nationality WHERE idNationality = ?");
-            ps.setInt(1, id);
+                ResultSet resultSet = ps.executeQuery();
+                resultSet.next();
+                n = new Nationality(resultSet.getInt("idNationality"), resultSet.getString("nationalityPatients"));
 
-            ResultSet resultSet = ps.executeQuery();
-            resultSet.next();
-            n = new Nationality(resultSet.getInt("idNationality"), resultSet.getString("nationalityPatients"));
-
+                ps.close();
+                resultSet.close();
+                connection.close();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -144,24 +162,28 @@ public class Patient {
     }
 
     public static List<Insurance> getInsuranceList() {
-        Connection connection = null;
+        Connection connection;
         List<Insurance> insurances = new ArrayList<>();
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-
-            PreparedStatement ps = connection.prepareStatement("SELECT idInsurance, insurancePatients FROM insurance");
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("idInsurance");
-                String insurance = resultSet.getString("insurancePatients");
-
-                insurances.add(new Insurance(id, insurance));
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
+            else {
+                PreparedStatement ps = connection.prepareStatement("SELECT idInsurance, insurancePatients FROM insurance");
+                ResultSet resultSet = ps.executeQuery();
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("idInsurance");
+                    String insurance = resultSet.getString("insurancePatients");
 
-            connection.close();
-            ps.close();
-            resultSet.close();
+                    insurances.add(new Insurance(id, insurance));
+                }
+
+                ps.close();
+                resultSet.close();
+                connection.close();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -169,18 +191,26 @@ public class Patient {
     }
 
     public static Insurance getInsurance(int id) {
-        Connection connection = null;
-        Insurance i;
+        Connection connection;
+        Insurance i = null;
 
         try {
             connection = DriverManager.getConnection(url, user, password);
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
+            }
+            else {
+                PreparedStatement ps = connection.prepareStatement("SELECT idInsurance, insurancePatients FROM insurance WHERE idInsurance = ?");
+                ps.setInt(1, id);
 
-            PreparedStatement ps = connection.prepareStatement("SELECT idInsurance, insurancePatients FROM insurance WHERE idInsurance = ?");
-            ps.setInt(1, id);
+                ResultSet resultSet = ps.executeQuery();
+                resultSet.next();
+                i = new Insurance(resultSet.getInt("idInsurance"), resultSet.getString("insurancePatients"));
 
-            ResultSet resultSet = ps.executeQuery();
-            resultSet.next();
-            i = new Insurance(resultSet.getInt("idInsurance"), resultSet.getString("insurancePatients"));
+                ps.close();
+                resultSet.close();
+                connection.close();
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -190,18 +220,21 @@ public class Patient {
 
     public static List<Patient> getAllPatients() {
 
-        List<Patient> patients;
-        Connection connection = null;
+        List<Patient> patients = List.of();
+        Connection connection;
 
         try {
             connection = DriverManager.getConnection(url, user, password);
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
+            }
+            else {
+                PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients");
+                patients = returnPatients(ps);
 
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients");
-            patients = returnPatients(ps);
-
-            connection.close();
-            ps.close();
-
+                ps.close();
+                connection.close();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -211,30 +244,39 @@ public class Patient {
 
     public static Patient getPatient (int id) {
 
-        Connection connection = null;
-        Patient p;
+        Connection connection;
+        Patient p = null;
 
         try {
             connection = DriverManager.getConnection(url, user, password);
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
+            }
+            else {
+                PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients WHERE idPatients = ?");
+                ps.setInt(1, id);
 
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients WHERE idPatients = ?");
-            ps.setInt(1, id);
+                ResultSet resultSet = ps.executeQuery();
+                resultSet.next();
 
-            ResultSet resultSet = ps.executeQuery();
-            resultSet.next();
+                p = new Patient(resultSet.getInt("idPatients"),
+                        resultSet.getString("firstNamePatients"),
+                        resultSet.getString("lastNamePatients"),
+                        resultSet.getLong("svnPatients"),
+                        resultSet.getDate("birthDatePatients"),
+                        resultSet.getString("streetPatients"),
+                        resultSet.getInt("streetNumberPatients"),
+                        resultSet.getInt("postalCodePatients"),
+                        resultSet.getString("cityPatients"),
+                        resultSet.getInt("idGender"),
+                        resultSet.getInt("idNationality"),
+                        resultSet.getInt("idInsurance"));
 
-            p = new Patient (resultSet.getInt("idPatients"),
-                    resultSet.getString("firstNamePatients"),
-                    resultSet.getString("lastNamePatients"),
-                    resultSet.getLong("svnPatients"),
-                    resultSet.getDate("birthDatePatients"),
-                    resultSet.getString("streetPatients"),
-                    resultSet.getInt("streetNumberPatients"),
-                    resultSet.getInt("postalCodePatients"),
-                    resultSet.getString("cityPatients"),
-                    resultSet.getInt("idGender"),
-                    resultSet.getInt("idNationality"),
-                    resultSet.getInt("idInsurance"));
+                ps.close();
+                resultSet.close();
+                connection.close();
+
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -243,24 +285,27 @@ public class Patient {
 
     public static List<Patient> searchPatients(String namePatient) {
 
-        Connection connection = null;
-        List<Patient> patients;
+        Connection connection;
+        List<Patient> patients = new ArrayList<>();
 
         try {
             connection = DriverManager.getConnection(url, user, password);
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
+            }
+            else {
+                PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients WHERE firstNamePatients LIKE ? " +
+                        "OR lastNamePatients LIKE ? " +
+                        "OR concat(firstNamePatients, ' ', lastNamePatients) LIKE ?");
+                namePatient = "%" + namePatient + "%";
+                ps.setString(1, namePatient);
+                ps.setString(2, namePatient);
+                ps.setString(3, namePatient);
+                patients = returnPatients(ps);
 
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM patients WHERE firstNamePatients LIKE ? " +
-                    "OR lastNamePatients LIKE ? " +
-                    "OR concat(firstNamePatients, ' ', lastNamePatients) LIKE ?");
-            namePatient = "%" + namePatient + "%";
-            ps.setString(1, namePatient);
-            ps.setString(2, namePatient);
-            ps.setString(3, namePatient);
-            patients = returnPatients(ps);
-
-            connection.close();
-            ps.close();
-
+                ps.close();
+                connection.close();
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -276,7 +321,7 @@ public class Patient {
             int id = resultSet.getInt("idPatients");
             String firstName = resultSet.getString("firstNamePatients");
             String lastName = resultSet.getString("lastNamePatients");
-            long svn = Long.parseLong(resultSet.getString("svnPatients").replace("\\s", ""));
+            long svn = resultSet.getLong("svnPatients");
             Date birthDate = resultSet.getDate("birthDatePatients");
             String street = resultSet.getString("streetPatients");
             int streetNumber = resultSet.getInt("streetNumberPatients");
@@ -300,18 +345,23 @@ public class Patient {
                                   String streetPatients, int streetNumberPatients, int postalCodePatients, String cityPatients,
                                   int idGender, int idNationality, int idInsurance) {
 
-        Connection connection = null;
+        Connection connection;
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO patients (firstNamePatients, lastNamePatients, " +
-                    "svnPatients, birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients," +
-                    "idGender, idNationality, idInsurance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
+            }
+            else {
+                PreparedStatement ps = connection.prepareStatement("INSERT INTO patients (firstNamePatients, lastNamePatients, " +
+                        "svnPatients, birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients," +
+                        "idGender, idNationality, idInsurance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-            setPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
+                setPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
 
-            ps.close();
-
+                ps.close();
+                connection.close();
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -322,19 +372,24 @@ public class Patient {
                                    String streetPatients, int streetNumberPatients, int postalCodePatients, String cityPatients,
                                    int idGender, int idNationality, int idInsurance) {
 
-        Connection connection = null;
+        Connection connection;
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-            PreparedStatement ps = connection.prepareStatement("UPDATE patients SET firstNamePatients = ?, lastNamePatients = ?, " +
-                    "svnPatients = ?, birthDatePatients = ?, streetPatients = ?, streetNumberPatients = ?, postalCodePatients = ?, " +
-                    "cityPatients = ?, idGender = ?, idNationality = ?, idInsurance = ? WHERE idPatients = ?");
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
+            }
+            else {
+                PreparedStatement ps = connection.prepareStatement("UPDATE patients SET firstNamePatients = ?, lastNamePatients = ?, " +
+                        "svnPatients = ?, birthDatePatients = ?, streetPatients = ?, streetNumberPatients = ?, postalCodePatients = ?, " +
+                        "cityPatients = ?, idGender = ?, idNationality = ?, idInsurance = ? WHERE idPatients = ?");
 
-            ps.setInt(12, id);
-            setPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
+                ps.setInt(12, id);
+                setPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
 
-            ps.close();
-
+                ps.close();
+                connection.close();
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -387,19 +442,19 @@ public class Patient {
                             streetNumber, postalCode, cityPatients, ((Gender) cbGender.getSelectedItem()).getGenderId(),
                             ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
                             ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
-                    System.out.println("Patient successfully added!");
+                    JOptionPane.showMessageDialog(null, "Patient added successfully");
                     success = true;
                 }else {
                     Patient.editPatient(idPatients, firstNamePatients, lastNamePatients, SVN, birthDate, streetPatients,
                             streetNumber, postalCode, cityPatients, ((Gender) cbGender.getSelectedItem()).getGenderId(),
                             ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
                             ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
-                    System.out.println("Patient successfully updated!");
+                    JOptionPane.showMessageDialog(null, "Patient edited successfully");
                     success = true;
                 }
 
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Please enter a valid number format in one of the fields!");
+                JOptionPane.showMessageDialog(null, "Please enter a valid number format in one of the fields! Don't use letters, special characters or space!");
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(null, "Please enter a valid birth date: use the format yyyy-mm-dd!");
             }
@@ -410,14 +465,20 @@ public class Patient {
 
     public static void deletePatient (int id) {
 
-        Connection connection = null;
+        Connection connection;
 
         try {
             connection = DriverManager.getConnection(url, user, password);
-
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM patients WHERE idPatients = ?");
-            ps.setInt(1, id);
-            ps.executeUpdate();
+            if (connection == null) {
+                JOptionPane.showMessageDialog(null, "Could not connect to database");
+            }
+            else {
+                PreparedStatement ps = connection.prepareStatement("DELETE FROM patients WHERE idPatients = ?");
+                ps.setInt(1, id);
+                ps.executeUpdate();
+                ps.close();
+                connection.close();
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

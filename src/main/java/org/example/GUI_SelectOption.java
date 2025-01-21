@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Locale;
+
 
 public class GUI_SelectOption extends JFrame {
     private JPanel contentPane;
@@ -33,6 +33,7 @@ public class GUI_SelectOption extends JFrame {
         setLocationRelativeTo(null);
         setLayout();
 
+        initializeMenu();
         fillPatientTable();
 
         btAdd.addActionListener(new ActionListener() {
@@ -89,18 +90,68 @@ public class GUI_SelectOption extends JFrame {
 
 
                     int confirm = JOptionPane.showConfirmDialog(null,
-                            "Are you sure you want to delete this patient?",
+                            "Are you sure you want to delete this patient? :(",
                             "Delete Patient",
                             JOptionPane.YES_NO_OPTION);
 
                     if (confirm == JOptionPane.YES_OPTION) {
                         Patient.deletePatient(id);
+                        JOptionPane.showMessageDialog(null, "Patient deleted");
                         fillPatientTable();
                     }
 
                 }else {
                     JOptionPane.showMessageDialog(null, "Please select a patient");
                 }
+            }
+        });
+    }
+
+    public void initializeMenu() {
+        JMenuBar menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+
+        JMenuItem printItem = new JMenuItem("Print");
+        fileMenu.add(printItem);
+        printItem.addActionListener(e -> Menu.printTable(tPatients));
+
+        JMenuItem exportItem = new JMenuItem("Export all to CSV");
+        fileMenu.add(exportItem);
+        exportItem.addActionListener(e -> Menu.exportToCSV(tPatients));
+
+        JMenuItem exportPatientItem = new JMenuItem("Export Patient to CSV");
+        fileMenu.add(exportPatientItem);
+        exportPatientItem.addActionListener(e -> Menu.exportPatientToCSV(tPatients));
+
+        JMenu helpMenu = new JMenu("Help");
+        menuBar.add(fileMenu);
+
+        JMenuItem helpItem = new JMenuItem("Helpdesk");
+        helpMenu.add(helpItem);
+        helpItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(null, "We don't know either :( \\n Please just ask Google");
+            }
+        });
+
+        menuBar.add(Box.createHorizontalGlue());
+
+        JMenu logoutMenu = new JMenu("Logout");
+        menuBar.add(logoutMenu);
+        JMenuItem logoutItem = new JMenuItem("Logout");
+        logoutMenu.add(logoutItem);
+        logoutItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                SwingUtilities.invokeLater(() -> {
+                    GUI_Login gui = new GUI_Login();
+                    gui.setVisible(true);
+                });
             }
         });
     }
