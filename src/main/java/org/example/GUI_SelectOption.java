@@ -120,14 +120,14 @@ public class GUI_SelectOption extends JFrame {
         exportPatientItem.addActionListener(e -> Menu.exportPatientToCSV(tPatients));
 
         JMenu helpMenu = new JMenu("Help");
-        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
 
         JMenuItem helpItem = new JMenuItem("Helpdesk");
         helpMenu.add(helpItem);
         helpItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "We don't know either :( \\n Please just ask Google");
+                JOptionPane.showMessageDialog(null, "We don't know either :(\nPlease just ask Google");
             }
         });
 
