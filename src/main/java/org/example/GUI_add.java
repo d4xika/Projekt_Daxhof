@@ -45,7 +45,7 @@ public class GUI_add extends JFrame {
 
         GridBagConstraints gbcP1 = new GridBagConstraints();
 
-            //Panel1 NOCH IMMER VERSETZT
+            //Panel1
             gbcP1.gridx = 0;
             gbcP1.gridy = GridBagConstraints.RELATIVE;
             gbcP1.weightx = 1;
