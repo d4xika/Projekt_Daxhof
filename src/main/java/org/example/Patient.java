@@ -21,9 +21,9 @@ public class Patient {
     private int idNationality;
     private int idInsurance;
 
-    private static final String url = "jdbc:mysql://localhost:3306/projekt_daxhof";
-    private static final String user = "root";
-    private static final String password = "mOrtible4827!#";
+    private static final String url = "jdbc:mysql://10.25.2.145:3306/23daxberger";
+    private static final String user = "23daxberger";
+    private static final String password = "geb23";
 
 
     public Patient(int idPatients, String firstNamePatients, String lastNamePatients, long svnPatients,

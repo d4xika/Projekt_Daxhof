@@ -9,7 +9,7 @@ public class Main {
 
         Locale.setDefault(Locale.ENGLISH);
         SwingUtilities.invokeLater(() -> {
-            GUI_SelectOption gui = new GUI_SelectOption();
+            GUI_Login gui = new GUI_Login();
             gui.setVisible(true);
         });
 
