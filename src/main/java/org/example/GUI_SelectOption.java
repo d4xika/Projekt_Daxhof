@@ -1,6 +1,5 @@
 package org.example;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -8,13 +7,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 
@@ -147,7 +142,7 @@ public class GUI_SelectOption extends JFrame {
         exportPatientItem.addActionListener(e -> Menu.exportPatientToCSV(tPatients));
 
         JMenu helpMenu = new JMenu("Help");
-        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
 
         JMenuItem helpItem = new JMenuItem("Helpdesk");
         helpMenu.add(helpItem);
@@ -156,7 +151,7 @@ public class GUI_SelectOption extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 UIManager.put("OptionPane.background", cBackground);
                 UIManager.put("Panel.background", cBackground);
-                JOptionPane.showMessageDialog(null, "We don't know either :( \\n Please just ask Google");
+                JOptionPane.showMessageDialog(null, "We don't know either :(\nPlease just ask Google");
             }
         });
 
@@ -182,9 +177,9 @@ public class GUI_SelectOption extends JFrame {
 
         List<Patient> patients;
 
-        if(tfPatientName.getText().isEmpty()) {
+        if (tfPatientName.getText().isEmpty()) {
             patients = Patient.getAllPatients();
-        }else {
+        } else {
             patients = Patient.searchPatients(tfPatientName.getText());
         }
 
@@ -201,7 +196,7 @@ public class GUI_SelectOption extends JFrame {
         tableModel.addColumn("SVN Number");
         tableModel.addColumn("Birth Date");
         tableModel.addColumn("Street");
-        tableModel.addColumn("Street Number");
+        tableModel.addColumn("Str.Nr.");
         tableModel.addColumn("Postal Code");
         tableModel.addColumn("City");
         tableModel.addColumn("Gender");
@@ -209,13 +204,14 @@ public class GUI_SelectOption extends JFrame {
         tableModel.addColumn("Insurance");
 
         for (Patient patient : patients) {
-            tableModel.addRow(new Object[] {
-                patient.getIdPatients(), patient.getFirstNamePatients(), patient.getLastNamePatients(),
-                patient.getSvnPatients(), patient.getBirthDatePatients(), patient.getStreetPatients(),
-                patient.getStreetNumberPatients(), patient.getPostalCodePatients(), patient.getCityPatients(),
-                patient.getIdGender(), patient.getIdNationality(), patient.getIdInsurance()
+            tableModel.addRow(new Object[]{
+                    patient.getIdPatients(), patient.getFirstNamePatients(), patient.getLastNamePatients(),
+                    patient.getSvnPatients(), patient.getBirthDatePatients(), patient.getStreetPatients(),
+                    patient.getStreetNumberPatients(), patient.getPostalCodePatients(), patient.getCityPatients(),
+                    Patient.getGender(patient.getIdGender()), Patient.getNationality(patient.getIdNationality()), Patient.getInsurance(patient.getIdInsurance()),
             });
         }
+
 
         tPatients.setModel(tableModel);
         if (patients.isEmpty()) {
@@ -225,7 +221,7 @@ public class GUI_SelectOption extends JFrame {
         }
     }
 
-    public void setLayout () {
+    public void setLayout() {
 
         setSize(1000,600);
         setLocationRelativeTo(null);
