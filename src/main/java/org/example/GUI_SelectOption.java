@@ -5,8 +5,7 @@ import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +22,6 @@ public class GUI_SelectOption extends JFrame {
     private JButton btDelete;
     private JTable tPatients;
     private JLabel lEnter;
-    private JLabel lPicture;
     private JPanel pButton;
     private Color cBackground = new Color(202,255,112);
     private Color cButton = new Color (162,205,90);
@@ -193,11 +191,11 @@ public class GUI_SelectOption extends JFrame {
         tableModel.addColumn("ID");
         tableModel.addColumn("first Name");
         tableModel.addColumn("last Name");
-        tableModel.addColumn("SVN Number");
+        tableModel.addColumn("SVN");
         tableModel.addColumn("Birth Date");
         tableModel.addColumn("Street");
         tableModel.addColumn("Str.Nr.");
-        tableModel.addColumn("Postal Code");
+        tableModel.addColumn("Post.Co.");
         tableModel.addColumn("City");
         tableModel.addColumn("Gender");
         tableModel.addColumn("Nationality");
@@ -214,6 +212,7 @@ public class GUI_SelectOption extends JFrame {
 
 
         tPatients.setModel(tableModel);
+        customizeTable(tPatients);
         if (patients.isEmpty()) {
             UIManager.put("OptionPane.background", cBackground);
             UIManager.put("Panel.background", cBackground);
@@ -223,7 +222,7 @@ public class GUI_SelectOption extends JFrame {
 
     public void setLayout() {
 
-        setSize(1000,600);
+        setSize(1100,600);
         setLocationRelativeTo(null);
         Color cBackground = new Color(188,238,104);
         contentPane.setBackground(cBackground);
@@ -312,6 +311,40 @@ public class GUI_SelectOption extends JFrame {
                 new LineBorder(cBorder),
                 new EmptyBorder(2,5,2,5)));
     }
+    public void customizeTable(JTable tPatients) {
+        // Spaltenbreite anpassen
+        TableColumnModel columnModel = tPatients.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(50);//ID
+        columnModel.getColumn(1).setPreferredWidth(160);//firtName
+        columnModel.getColumn(2).setPreferredWidth(175);//lastName
+        columnModel.getColumn(3).setPreferredWidth(150);//SVN
+        columnModel.getColumn(4).setPreferredWidth(150);//Birthdate
+        columnModel.getColumn(5).setPreferredWidth(200);//Street Name
+        columnModel.getColumn(6).setPreferredWidth(80);//Street Number
+        columnModel.getColumn(7).setPreferredWidth(110);//Postalcode
+        columnModel.getColumn(8).setPreferredWidth(150);//City
+        columnModel.getColumn(9).setPreferredWidth(100);//Gender
+        columnModel.getColumn(10).setPreferredWidth(150);//Natiionality
+        columnModel.getColumn(11).setPreferredWidth(125);//Insurance
+
+
+            tPatients.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+                @Override
+                public Component getTableCellRendererComponent(JTable table, Object value,
+                                                               boolean isSelected, boolean hasFocus,
+                                                               int row, int column) {
+                    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+                    JTableHeader header = tPatients.getTableHeader();
+                    tPatients.getTableHeader().setPreferredSize(new Dimension(0, 30));
+                    header.setBackground(cButton);
+                    header.setFont(new Font("Arial", Font.BOLD, 12));
+                    return c;
+                }
+            });
+
+        }
+
 
 }
 
