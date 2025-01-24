@@ -1,7 +1,8 @@
-package org.example;
+package org.example.gui;
+
+import org.example.model.Patient;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -23,9 +24,9 @@ public class GUI_SelectOption extends JFrame {
     private JTable tPatients;
     private JLabel lEnter;
     private JPanel pButton;
-    private Color cBackground = new Color(202,255,112);
-    private Color cButton = new Color (162,205,90);
-    private Color cBorder = new Color (110,139,61);
+    private final Color cBackground = new Color(202,255,112);
+    private final Color cButton = new Color (162,205,90);
+    private final Color cBorder = new Color (110,139,61);
 
     public GUI_SelectOption() {
 
@@ -201,6 +202,16 @@ public class GUI_SelectOption extends JFrame {
         tableModel.addColumn("Nationality");
         tableModel.addColumn("Insurance");
 
+        tPatients.getTableHeader().setReorderingAllowed(false);
+        tPatients.setModel(tableModel);
+
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+        tPatients.setRowSorter(sorter);
+        sorter.setSortable(3, false);
+        sorter.setSortable(5, false);
+        sorter.setSortable(6, false);
+
+
         for (Patient patient : patients) {
             tableModel.addRow(new Object[]{
                     patient.getIdPatients(), patient.getFirstNamePatients(), patient.getLastNamePatients(),
@@ -210,8 +221,6 @@ public class GUI_SelectOption extends JFrame {
             });
         }
 
-
-        tPatients.setModel(tableModel);
         customizeTable(tPatients);
         if (patients.isEmpty()) {
             UIManager.put("OptionPane.background", cBackground);

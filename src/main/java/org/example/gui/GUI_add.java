@@ -1,4 +1,9 @@
-package org.example;
+package org.example.gui;
+
+import org.example.model.Gender;
+import org.example.model.Insurance;
+import org.example.model.Nationality;
+import org.example.model.Patient;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -96,6 +101,10 @@ public class GUI_add extends JFrame {
         setSize(370,460);
         setLocationRelativeTo(null);
 
+        setAddEditLayout(panel1, lFirstName, lLastName, lSVN, lBirthDate, lStreet, lStreetNumber, lPostalCode, lCity, lGender, lNationality, lInsurance, panel2, tfFirstName, tfLastName, tfSVN, tfBirthDate, tfStreet, tfStreetNumber, tfPostalCode, tfCity, cbGender, cbNationality, cbInsurance, contentPane, btReturn, btAdd);
+    }
+
+    public static void setAddEditLayout(JPanel panel1, JLabel lFirstName, JLabel lLastName, JLabel lSVN, JLabel lBirthDate, JLabel lStreet, JLabel lStreetNumber, JLabel lPostalCode, JLabel lCity, JLabel lGender, JLabel lNationality, JLabel lInsurance, JPanel panel2, JTextField tfFirstName, JTextField tfLastName, JTextField tfSVN, JTextField tfBirthDate, JTextField tfStreet, JTextField tfStreetNumber, JTextField tfPostalCode, JTextField tfCity, JComboBox<Gender> cbGender, JComboBox<Nationality> cbNationality, JComboBox<Insurance> cbInsurance, JPanel contentPane, JButton btReturn, JButton btAdd) {
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.gridx = 0;
@@ -174,6 +183,14 @@ public class GUI_add extends JFrame {
 
     public void addColor (){
 
+        setAddEditColor(contentPane, panel1, panel2, btAdd, btReturn);
+        Color cBorder = null;
+        btAdd.setBorder(BorderFactory.createLineBorder(cBorder));
+        btReturn.setBorder(BorderFactory.createLineBorder(cBorder));
+
+    }
+
+    public static void setAddEditColor(JPanel contentPane, JPanel panel1, JPanel panel2, JButton btAdd, JButton btReturn) {
         Color cBackground = new Color(202,255,112);
         contentPane.setBackground(cBackground);
         panel1.setBackground(cBackground);
@@ -184,8 +201,6 @@ public class GUI_add extends JFrame {
         btReturn.setBackground(cButton);
 
         Color cBorder = new Color (110,139,61);
-        btAdd.setBorder(BorderFactory.createLineBorder(cBorder));
-        btReturn.setBorder(BorderFactory.createLineBorder(cBorder));
 
         Border bTf = BorderFactory.createCompoundBorder(
                 new LineBorder(cBorder),
@@ -198,13 +213,6 @@ public class GUI_add extends JFrame {
             }
         }
     }
-    public JPanel getPanel1(){
-        return panel1;
-    }
-    public JPanel getPanel2(){
-        return panel2;
-    }
-
 
 }
 

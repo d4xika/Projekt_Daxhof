@@ -1,4 +1,6 @@
-package org.example;
+package org.example.main;
+
+import org.example.gui.GUI_Login;
 
 import javax.swing.*;
 import java.util.Locale;

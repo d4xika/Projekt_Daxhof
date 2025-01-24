@@ -1,4 +1,4 @@
-package org.example;
+package org.example.model;
 
 import javax.swing.*;
 import java.sql.*;
@@ -357,7 +357,7 @@ public class Patient {
                         "svnPatients, birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients," +
                         "idGender, idNationality, idInsurance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-                setPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
+                setPreparedStatementPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
 
                 ps.close();
                 connection.close();
@@ -385,7 +385,7 @@ public class Patient {
                         "cityPatients = ?, idGender = ?, idNationality = ?, idInsurance = ? WHERE idPatients = ?");
 
                 ps.setInt(12, id);
-                setPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
+                setPreparedStatementPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients, streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality, idInsurance, connection, ps);
 
                 ps.close();
                 connection.close();
@@ -396,7 +396,7 @@ public class Patient {
 
     }
 
-    private static void setPatient(String firstNamePatients, String lastNamePatients, long svnPatients,
+    private static void setPreparedStatementPatient(String firstNamePatients, String lastNamePatients, long svnPatients,
                                    java.sql.Date birthDatePatients, String streetPatients, int streetNumberPatients,
                                    int postalCodePatients, String cityPatients, int idGender, int idNationality,
                                    int idInsurance, Connection connection, PreparedStatement ps) throws SQLException {

@@ -1,7 +1,6 @@
-package org.example;
+package org.example.gui;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -20,7 +19,7 @@ public class GUI_Login extends JFrame {
     private JButton btLogin;
     private JLabel lWelcome;
 
-    GUI_Login() {
+    public GUI_Login() {
         setTitle("Login");
         setContentPane(contentPane);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,7 +36,7 @@ public class GUI_Login extends JFrame {
                         gui.setVisible(true);
                     });
                 }else {
-                    JOptionPane.showMessageDialog(contentPane, "falsche Zugangsdaten", "Fehler", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(contentPane, "wrong login data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
