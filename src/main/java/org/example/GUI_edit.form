@@ -48,7 +48,7 @@
               <gridbag weightx="1.0" weighty="1.0"/>
             </constraints>
             <properties>
-              <text value="Birthdate"/>
+              <text value="Birthdate [yyyy.MM-dd]"/>
             </properties>
           </component>
           <component id="ccbef" class="javax.swing.JLabel" binding="lStreet">

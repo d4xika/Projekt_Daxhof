@@ -2,7 +2,14 @@ package org.example;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,15 +30,17 @@ public class GUI_SelectOption extends JFrame {
     private JLabel lEnter;
     private JLabel lPicture;
     private JPanel pButton;
+    private Color cBackground = new Color(202,255,112);
+    private Color cButton = new Color (162,205,90);
+    private Color cBorder = new Color (110,139,61);
 
     public GUI_SelectOption() {
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
         setTitle("Select option");
-        setSize(1000,600);
-        setLocationRelativeTo(null);
         setLayout();
+        addColor();
 
         initializeMenu();
         fillPatientTable();
@@ -72,6 +81,8 @@ public class GUI_SelectOption extends JFrame {
                     });
                 }
                 else {
+                    UIManager.put("OptionPane.background", cBackground);
+                    UIManager.put("Panel.background", cBackground);
                     JOptionPane.showMessageDialog(null, "Please select a patient");
                 }
             }
@@ -89,18 +100,27 @@ public class GUI_SelectOption extends JFrame {
                     int id = (int) model.getValueAt(row, 0);
 
 
+                    UIManager.put("OptionPane.background", cBackground);
+                    UIManager.put("Panel.background", cBackground);
                     int confirm = JOptionPane.showConfirmDialog(null,
                             "Are you sure you want to delete this patient? :(",
                             "Delete Patient",
                             JOptionPane.YES_NO_OPTION);
 
                     if (confirm == JOptionPane.YES_OPTION) {
+                        UIManager.put("OptionPane.background", cBackground);
+                        UIManager.put("Panel.background", cBackground);
                         Patient.deletePatient(id);
+                        UIManager.put("OptionPane.background", cBackground);
+                        UIManager.put("Panel.background", cBackground);
                         JOptionPane.showMessageDialog(null, "Patient deleted");
                         fillPatientTable();
                     }
 
+
                 }else {
+                    UIManager.put("OptionPane.background", cBackground);
+                    UIManager.put("Panel.background", cBackground);
                     JOptionPane.showMessageDialog(null, "Please select a patient");
                 }
             }
@@ -134,6 +154,8 @@ public class GUI_SelectOption extends JFrame {
         helpItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                UIManager.put("OptionPane.background", cBackground);
+                UIManager.put("Panel.background", cBackground);
                 JOptionPane.showMessageDialog(null, "We don't know either :( \\n Please just ask Google");
             }
         });
@@ -197,11 +219,19 @@ public class GUI_SelectOption extends JFrame {
 
         tPatients.setModel(tableModel);
         if (patients.isEmpty()) {
+            UIManager.put("OptionPane.background", cBackground);
+            UIManager.put("Panel.background", cBackground);
             JOptionPane.showMessageDialog(null, "No patients found");
         }
     }
 
     public void setLayout () {
+
+        setSize(1000,600);
+        setLocationRelativeTo(null);
+        Color cBackground = new Color(188,238,104);
+        contentPane.setBackground(cBackground);
+        pButton.setBackground(cBackground);
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -212,21 +242,24 @@ public class GUI_SelectOption extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         contentPane.add(lEnter, gbc);
 
-        JTextField tfPatientName = new JTextField(30);
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1;
-        gbc.insets = new Insets(5, 20, 5, 0);
+        gbc.weightx = 1;
+        gbc.insets = new Insets(5, 15, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         contentPane.add(tfPatientName, gbc);
 
         gbc.gridx = 1;
         gbc.gridy = 1;
+        gbc.weightx = 0;
+        gbc.gridwidth = 1;
+        gbc.ipadx = 10;
         gbc.insets = new Insets(5, 0, 5, 10);
         gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.EAST;
         contentPane.add(btSearch, gbc);
 
-        JPanel pButton = new JPanel(new GridBagLayout());
         GridBagConstraints gbcButton = new GridBagConstraints();
         gbcButton.gridx = 0;
         gbcButton.gridy = GridBagConstraints.RELATIVE;
@@ -244,7 +277,7 @@ public class GUI_SelectOption extends JFrame {
         gbc.gridheight = 3;
         gbc.weightx = 0;
         gbc.weighty = 1.0;
-        gbc.insets = new Insets(15, 10, 15, 15);
+        gbc.insets = new Insets(15, 7, 15, 15);
         gbc.fill = GridBagConstraints.VERTICAL;
         gbc.anchor = GridBagConstraints.NORTH;
         contentPane.add(pButton, gbc);
@@ -255,12 +288,33 @@ public class GUI_SelectOption extends JFrame {
         gbc.gridheight = 1;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.insets = new Insets(10, 15, 15, 10);
+        gbc.insets = new Insets(10, 15, 15, 8);
         gbc.fill = GridBagConstraints.BOTH;
-        spPatientsFound.getViewport().setOpaque(false);
-        spPatientsFound.setViewportView(tPatients);
         contentPane.add(spPatientsFound, gbc);
+    }
+    public void addColor (){
 
+        contentPane.setBackground(cBackground);
+        pButton.setBackground(cBackground);
+
+        spPatientsFound.getViewport().setBackground(cButton);
+        btSearch.setBackground(cButton);
+        btAdd.setBackground(cButton);
+        btEdit.setBackground(cButton);
+        btDelete.setBackground(cButton);
+
+        btSearch.setBorder(new CompoundBorder(
+                new LineBorder(cBorder),
+                new EmptyBorder(2,3,2,3)));
+        btAdd.setBorder(new CompoundBorder(
+                new LineBorder(cBorder),
+                new EmptyBorder(2,3,2,3)));
+        btEdit.setBorder(new CompoundBorder(
+                new LineBorder(cBorder),
+                new EmptyBorder(2,3,2,3)));
+        btDelete.setBorder(new CompoundBorder(
+                new LineBorder(cBorder),
+                new EmptyBorder(2,5,2,5)));
     }
 
 }

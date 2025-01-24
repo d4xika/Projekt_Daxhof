@@ -1,6 +1,9 @@
 package org.example;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,95 +42,8 @@ public class GUI_add extends JFrame {
         setTitle("Add Patient");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
-        setSize(370,460);
-        setLocationRelativeTo(null);
-
-
-        GridBagConstraints gbcP1 = new GridBagConstraints();
-
-            //Panel1
-            gbcP1.gridx = 0;
-            gbcP1.gridy = GridBagConstraints.RELATIVE;
-            gbcP1.weightx = 1;
-            gbcP1.weighty = 0.5;
-            gbcP1.fill = GridBagConstraints.NONE;
-            gbcP1.insets = new Insets(5,5,5,5);
-            gbcP1.anchor = GridBagConstraints.EAST;
-            panel1.add(lFirstName, gbcP1);
-            panel1.add(lLastName, gbcP1);
-            panel1.add(lSVN, gbcP1);
-            panel1.add(lBirthDate, gbcP1);
-            panel1.add(lStreet, gbcP1);
-            panel1.add(lStreetNumber, gbcP1);
-            panel1.add(lPostalCode, gbcP1);
-            panel1.add(lCity, gbcP1);
-
-            gbcP1.weighty = 1.1;
-            panel1.add(lGender, gbcP1);
-            panel1.add(lNationality, gbcP1);
-            panel1.add(lInsurance, gbcP1);
-
-
-        GridBagConstraints gbcP2 = new GridBagConstraints();
-
-            //Panel2
-            gbcP2.gridx = 0;
-            gbcP2.gridy = GridBagConstraints.RELATIVE;
-            gbcP2.weightx = 1;
-            gbcP2.fill = GridBagConstraints.HORIZONTAL;
-            gbcP2.insets = new Insets(5,5,5,5);
-            gbcP2.anchor = GridBagConstraints.CENTER;
-            panel2.add(tfFirstName, gbcP2);
-            panel2.add(tfLastName, gbcP2);
-            panel2.add(tfSVN, gbcP2);
-            panel2.add(tfBirthDate, gbcP2);
-            panel2.add(tfStreet, gbcP2);
-            panel2.add(tfStreetNumber, gbcP2);
-            panel2.add(tfPostalCode, gbcP2);
-            panel2.add(tfCity, gbcP2);
-            panel2.add(cbGender, gbcP2);
-            panel2.add(cbNationality, gbcP2);
-            panel2.add(cbInsurance, gbcP2);
-
-        GridBagConstraints gbcCP = new GridBagConstraints(); //für ContentPane bzw. JPanel
-
-            //Panel1
-            gbcCP.gridx = 0;
-            gbcCP.gridy = 0;
-            gbcCP.weightx = 0.7;
-            gbcCP.weighty = 1;
-            gbcCP.fill = GridBagConstraints.BOTH;
-            gbcCP.insets = new Insets(10,10,8,5);
-            gbcCP.anchor = GridBagConstraints.CENTER;
-            contentPane.add(panel1,gbcCP);
-
-            //Panel2
-            gbcCP.gridx = 1;
-            gbcCP.gridy = 0;
-            gbcCP.weightx = 3;
-            gbcCP.weighty = 1;
-            gbcCP.fill = GridBagConstraints.HORIZONTAL;
-            gbcCP.insets = new Insets(10,5,8,10);
-            gbcCP.anchor = GridBagConstraints.CENTER;
-            contentPane.add(panel2, gbcCP);
-
-            //Button Return
-            gbcCP.gridx = 0;
-            gbcCP.gridy = 1;
-            gbcCP.weightx = 0.7;
-            gbcCP.fill = GridBagConstraints.HORIZONTAL;
-            gbcCP.insets = new Insets(7,15,15,10);
-            gbcCP.anchor = GridBagConstraints.CENTER;
-            contentPane.add(btReturn, gbcCP);
-
-            //Button Add
-            gbcCP.gridx = 1;
-            gbcCP.gridy = 1;
-            gbcCP.weightx = 3;
-            gbcCP.fill = GridBagConstraints.HORIZONTAL;
-            gbcCP.insets = new Insets(7,10,15,15);
-            gbcCP.anchor = GridBagConstraints.CENTER;
-            contentPane.add(btAdd, gbcCP);
+        setLayout();
+        addColor();
 
         fillAddBoxes();
 
@@ -175,7 +91,119 @@ public class GUI_add extends JFrame {
                 tfStreetNumber.getText(), tfPostalCode.getText(), tfCity.getText(), cbGender, cbNationality, cbInsurance);
     }
 
+    public void setLayout (){
 
+        setSize(370,460);
+        setLocationRelativeTo(null);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.weightx = 1;
+        gbc.weighty = 0.5;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.insets = new Insets(5,5,5,5);
+        gbc.anchor = GridBagConstraints.EAST;
+        panel1.add(lFirstName, gbc);
+        panel1.add(lLastName, gbc);
+        panel1.add(lSVN, gbc);
+        panel1.add(lBirthDate, gbc);
+        panel1.add(lStreet, gbc);
+        panel1.add(lStreetNumber, gbc);
+        panel1.add(lPostalCode, gbc);
+        panel1.add(lCity, gbc);
+
+        gbc.weighty = 1.1;
+        panel1.add(lGender, gbc);
+        panel1.add(lNationality, gbc);
+        panel1.add(lInsurance, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = GridBagConstraints.RELATIVE;
+        gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5,5,5,5);
+        gbc.anchor = GridBagConstraints.CENTER;
+        panel2.add(tfFirstName, gbc);
+        panel2.add(tfLastName, gbc);
+        panel2.add(tfSVN, gbc);
+        panel2.add(tfBirthDate, gbc);
+        panel2.add(tfStreet, gbc);
+        panel2.add(tfStreetNumber, gbc);
+        panel2.add(tfPostalCode, gbc);
+        panel2.add(tfCity, gbc);
+        panel2.add(cbGender, gbc);
+        panel2.add(cbNationality, gbc);
+        panel2.add(cbInsurance, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.7;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(10,10,8,5);
+        gbc.anchor = GridBagConstraints.CENTER;
+        contentPane.add(panel1,gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 3;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10,5,8,10);
+        gbc.anchor = GridBagConstraints.CENTER;
+        contentPane.add(panel2, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 0.7;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(7,15,15,10);
+        gbc.anchor = GridBagConstraints.CENTER;
+        contentPane.add(btReturn, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weightx = 3;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(7,10,15,15);
+        gbc.anchor = GridBagConstraints.CENTER;
+        contentPane.add(btAdd, gbc);
+    }
+
+    public void addColor (){
+
+        Color cBackground = new Color(202,255,112);
+        contentPane.setBackground(cBackground);
+        panel1.setBackground(cBackground);
+        panel2.setBackground(cBackground);
+
+        Color cButton = new Color (162,205,90);
+        btAdd.setBackground(cButton);
+        btReturn.setBackground(cButton);
+
+        Color cBorder = new Color (110,139,61);
+        btAdd.setBorder(BorderFactory.createLineBorder(cBorder));
+        btReturn.setBorder(BorderFactory.createLineBorder(cBorder));
+
+        Border bTf = BorderFactory.createCompoundBorder(
+                new LineBorder(cBorder),
+                new EmptyBorder(1,3,1,3));
+        for (Component component : panel2.getComponents()) {
+            if (component instanceof JTextField) {
+                ((JTextField) component).setBorder(bTf);
+            } else if (component instanceof JOptionPane) {
+                ((JOptionPane) component).setBorder(bTf);
+            }
+        }
+    }
+    public JPanel getPanel1(){
+        return panel1;
+    }
+    public JPanel getPanel2(){
+        return panel2;
+    }
 
 
 }

@@ -2,23 +2,11 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="org.example.GUI_Login">
   <grid id="27dc6" binding="contentPane" layout-manager="GridBagLayout">
     <constraints>
-      <xy x="114" y="96" width="406" height="324"/>
+      <xy x="114" y="96" width="406" height="417"/>
     </constraints>
     <properties/>
     <border type="none"/>
     <children>
-      <component id="92ce0" class="javax.swing.JTextField" binding="tfWelcome">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
-          <gridbag weightx="0.0" weighty="1.0"/>
-        </constraints>
-        <properties>
-          <editable value="false"/>
-          <text value="Welcome! Please enter your username and password!"/>
-        </properties>
-      </component>
       <component id="da38" class="javax.swing.JLabel" binding="lUser">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -62,6 +50,15 @@
         </constraints>
         <properties>
           <text value="Login"/>
+        </properties>
+      </component>
+      <component id="3dfd1" class="javax.swing.JLabel" binding="lWelcome">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="Welcome! Please enter your username and password!"/>
         </properties>
       </component>
     </children>
