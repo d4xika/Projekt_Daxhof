@@ -1,5 +1,7 @@
 package org.example.model;
 
+import org.example.gui.SetLayout;
+
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -83,6 +87,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -111,6 +117,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -141,6 +149,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -168,6 +178,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -197,6 +209,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -226,6 +240,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -250,6 +266,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -291,6 +309,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -350,6 +370,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -377,6 +399,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {
@@ -427,6 +451,8 @@ public class Patient {
         if (firstNamePatients.isEmpty() || lastNamePatients.isEmpty() || svnPatients.isEmpty() || birthDatePatients==null || streetPatients.isEmpty() ||
                 streetNumberPatients.isEmpty() || postalCodePatients.isEmpty() || cityPatients.isEmpty() || cbGender.getSelectedItem() == null ||
                 cbNationality.getSelectedItem() == null || cbInsurance.getSelectedItem() == null) {
+            UIManager.put("OptionPane.background", SetLayout.cBackground);
+            UIManager.put("Panel.background", SetLayout.cBackground);
             JOptionPane.showMessageDialog(null, "Please enter all information");
         } else {
 
@@ -442,6 +468,8 @@ public class Patient {
                             streetNumber, postalCode, cityPatients, ((Gender) cbGender.getSelectedItem()).getGenderId(),
                             ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
                             ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
+                    UIManager.put("OptionPane.background", SetLayout.cBackground);
+                    UIManager.put("Panel.background", SetLayout.cBackground);
                     JOptionPane.showMessageDialog(null, "Patient added successfully");
                     success = true;
                 }else {
@@ -449,13 +477,19 @@ public class Patient {
                             streetNumber, postalCode, cityPatients, ((Gender) cbGender.getSelectedItem()).getGenderId(),
                             ((Nationality) cbNationality.getSelectedItem()).getNationalityId(),
                             ((Insurance) cbInsurance.getSelectedItem()).getInsuranceId());
+                    UIManager.put("OptionPane.background", SetLayout.cBackground);
+                    UIManager.put("Panel.background", SetLayout.cBackground);
                     JOptionPane.showMessageDialog(null, "Patient edited successfully");
                     success = true;
                 }
 
             } catch (NumberFormatException e) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Please enter a valid number format in one of the fields! Don't use letters, special characters or space!");
             } catch (IllegalArgumentException e) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Please enter a valid birth date: use the format yyyy-mm-dd!");
             }
         }
@@ -470,6 +504,8 @@ public class Patient {
         try {
             connection = DriverManager.getConnection(url, user, password);
             if (connection == null) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Could not connect to database");
             }
             else {

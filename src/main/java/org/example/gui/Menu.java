@@ -13,6 +13,7 @@ public class Menu {
     public static void exportToCSV(JTable tPatients) {
 
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setBackground(SetLayout.cBackground);
         fileChooser.setDialogTitle("Export as CSV");
         int userSelection = fileChooser.showSaveDialog(null);
 
@@ -34,8 +35,12 @@ public class Menu {
                     fw.write("\n");
                 }
 
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Export successful!");
             } catch (IOException e) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Error during export: " + e.getMessage());
             }
         }
@@ -45,11 +50,14 @@ public class Menu {
 
         int selectedRow = tPatients.getSelectedRow();
         if (selectedRow == -1) {
+            UIManager.put("OptionPane.background", SetLayout.cBackground);
+            UIManager.put("Panel.background", SetLayout.cBackground);
             JOptionPane.showMessageDialog(null, "Please select a patient");
             return;
         }
 
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setBackground(SetLayout.cBackground);
         int userSelection = fileChooser.showSaveDialog(null);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
@@ -74,8 +82,12 @@ public class Menu {
                 }
                 bw.newLine();
 
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Export successful!");
             } catch (IOException e) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Error during export: " + e.getMessage());
             }
         }
@@ -84,9 +96,13 @@ public class Menu {
     public static void printTable(JTable tPatients) {
         try {
             if (!tPatients.print()) {
+                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                UIManager.put("Panel.background", SetLayout.cBackground);
                 JOptionPane.showMessageDialog(null, "Printing cancelled");
             }
         }catch (PrinterException e) {
+            UIManager.put("OptionPane.background", SetLayout.cBackground);
+            UIManager.put("Panel.background", SetLayout.cBackground);
             JOptionPane.showMessageDialog(null, "Error during print: " + e.getMessage());
         }
     }

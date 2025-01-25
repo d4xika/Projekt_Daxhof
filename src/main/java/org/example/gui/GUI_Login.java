@@ -1,10 +1,6 @@
 package org.example.gui;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -36,6 +32,8 @@ public class GUI_Login extends JFrame {
                         gui.setVisible(true);
                     });
                 }else {
+                    UIManager.put("OptionPane.background", SetLayout.cBackground);
+                    UIManager.put("Panel.background", SetLayout.cBackground);
                     JOptionPane.showMessageDialog(contentPane, "wrong login data", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
@@ -60,70 +58,12 @@ public class GUI_Login extends JFrame {
         setSize(350,200);
         setLocationRelativeTo(null);
         pfPassword.setEchoChar('*');
-        Color cBackground = new Color(188,238,104);
-        contentPane.setBackground(cBackground);
-
-        GridBagConstraints gbc = new GridBagConstraints();
-
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.insets = new Insets(5,5,5,5);
-        gbc.anchor = GridBagConstraints.CENTER;
-        contentPane.add(btLogin, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.insets = new Insets(15,10,5,10);
-        gbc.anchor = GridBagConstraints.CENTER;
-        contentPane.add(lWelcome, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5,35,5,20);
-        gbc.anchor = GridBagConstraints.WEST;
-        contentPane.add(lUser, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5,70,5,20);
-        gbc.anchor = GridBagConstraints.EAST;
-        contentPane.add(tfUser, gbc);
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5,10,5,20);
-        gbc.anchor = GridBagConstraints.WEST;
-        contentPane.add(lPassword, gbc);
-
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5,70,5,20);
-        gbc.anchor = GridBagConstraints.EAST;
-        contentPane.add(pfPassword, gbc);
+        SetLayout.setLoginLayout(contentPane, lWelcome, lUser, tfUser, lPassword, pfPassword, btLogin);
     }
+
     public void addColor(){
-        Color cBackground = new Color(202,255,112);
-        contentPane.setBackground(cBackground);
 
-        Color cButton = new Color (162,205,90);
-        btLogin.setBackground(cButton);
-
-        Color cBorder = new Color (110,139,61);
-        btLogin.setBorder(new CompoundBorder(
-                new LineBorder(cBorder),
-                new EmptyBorder(1,10,1,10)));
-        tfUser.setBorder(BorderFactory.createLineBorder(cBorder));
-        pfPassword.setBorder(BorderFactory.createLineBorder(cBorder));
-
-
+        SetLayout.setLoginColor(contentPane, tfUser, pfPassword, btLogin);
     }
 
 }

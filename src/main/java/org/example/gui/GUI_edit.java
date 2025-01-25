@@ -6,7 +6,6 @@ import org.example.model.Nationality;
 import org.example.model.Patient;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -105,17 +104,11 @@ public class GUI_edit extends JFrame {
 
         setSize(370,460);
         setLocationRelativeTo(null);
-        Color cBackground = new Color(188,238,104);
-        contentPane.setBackground(cBackground);
-        panel1.setBackground(cBackground);
-        panel2.setBackground(cBackground);
-
-        GUI_add.setAddEditLayout(panel1, lFirstName, lLastName, lSVN, lBirthDate, lStreet, lStreetNumber, lPostalCode, lCity, lGender, lNationality, lInsurance, panel2, tfFirstName, tfLastName, tfSVN, tfBirthDate, tfStreet, tfStreetNumber, tfPostalCode, tfCity, cbGender, cbNationality, cbInsurance, contentPane, btReturn, btEdit);
+        SetLayout.setAddEditLayout(panel1, lFirstName, lLastName, lSVN, lBirthDate, lStreet, lStreetNumber, lPostalCode, lCity, lGender, lNationality, lInsurance, panel2, tfFirstName, tfLastName, tfSVN, tfBirthDate, tfStreet, tfStreetNumber, tfPostalCode, tfCity, cbGender, cbNationality, cbInsurance, contentPane, btReturn, btEdit);
     }
     public void addColor (){
 
-        GUI_add.setAddEditColor(contentPane, panel1, panel2, btEdit, btReturn);
-
+        SetLayout.setAddEditColor(contentPane, panel1, panel2, btEdit, btReturn);
     }
 
 
