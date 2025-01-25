@@ -39,14 +39,15 @@ public class GUI_add extends JFrame {
     private JPanel panel1;
     private JPanel panel2;
 
-    GUI_add() {
+    public GUI_add() {
         setTitle("Add Patient");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
+
         setLayout();
         addColor();
 
-        fillAddBoxes();
+        new Thread(() -> fillAddBoxes()).start(); // Daten in Thread laden für ComboBox
 
         btReturn.addActionListener(new ActionListener() {
             @Override
@@ -61,53 +62,90 @@ public class GUI_add extends JFrame {
         btAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean added = addNewPatient();
-                if (added) {
-                    dispose();
-                    SwingUtilities.invokeLater(() -> {
-                        GUI_SelectOption gui = new GUI_SelectOption();
-                        gui.setVisible(true);
-                    });
-                }
+                new Thread(() -> {
+                    boolean added = addNewPatient(); // Überprüfe, ob Patienten erfolgreich hinzugefügt werden
+
+                    if (added) {
+                        SwingUtilities.invokeLater(() -> {
+                            dispose();
+                            GUI_SelectOption gui = new GUI_SelectOption();
+                            gui.setVisible(true);
+                        });
+                    } else {
+                        // Protokollierung für detailliertere Fehleranalyse
+                        SwingUtilities.invokeLater(() -> {
+                            JOptionPane.showMessageDialog(
+                                    GUI_add.this,
+                                    "Fehler beim Hinzufügen des Patienten. Überprüfen Sie die Eingabedaten und versuchen Sie es erneut.",
+                                    "Fehler",
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                        });
+                    }
+                }).start();
             }
         });
+
     }
 
     public void fillAddBoxes() {
-        fillBoxes(cbGender, cbNationality, cbInsurance);
+        SwingUtilities.invokeLater(() -> fillBoxes(cbGender, cbNationality, cbInsurance));
     }
 
     public static void fillBoxes(JComboBox<Gender> cbGender, JComboBox<Nationality> cbNationality, JComboBox<Insurance> cbInsurance) {
+
         List<Gender> genders = Patient.getGenderList();
         genders.forEach(cbGender::addItem);
+
         List<Nationality> nationalities = Patient.getNationalityList();
         nationalities.forEach(cbNationality::addItem);
+
         List<Insurance> insurances = Patient.getInsuranceList();
         insurances.forEach(cbInsurance::addItem);
     }
 
     public boolean addNewPatient() {
+        try {Patient.savePatient(
+                0,
+                tfFirstName.getText(),
+                tfLastName.getText(),
+                tfSVN.getText(),
+                tfBirthDate.getText(),
+                tfStreet.getText(),
+                tfStreetNumber.getText(),
+                tfPostalCode.getText(),
+                tfCity.getText(),
+                cbGender,
+                cbNationality,
+                cbInsurance);
 
-        return Patient.savePatient(0, tfFirstName.getText(), tfLastName.getText(), tfSVN.getText(), tfBirthDate.getText(), tfStreet.getText(),
-                tfStreetNumber.getText(), tfPostalCode.getText(), tfCity.getText(), cbGender, cbNationality, cbInsurance);
+            return true; // Rückgabe true, wenn der Patient erfolgreich hinzugefügt wurde
+        } catch (Exception ex) {
+            ex.printStackTrace(); // Fehler wird in der Konsole ausgegeben
+            return false; // Rückgabe false im Fehlerfall
+        }
+
     }
 
-    public void setLayout (){
-
-        setSize(370,460);
+    public void setLayout() {
+        setSize(370, 460);
         setLocationRelativeTo(null);
-        SetLayout.setAddEditLayout(panel1, lFirstName, lLastName, lSVN, lBirthDate, lStreet, lStreetNumber,
-                lPostalCode, lCity, lGender, lNationality, lInsurance, panel2, tfFirstName, tfLastName, tfSVN,
-                tfBirthDate, tfStreet, tfStreetNumber, tfPostalCode, tfCity, cbGender, cbNationality, cbInsurance,
-                contentPane, btReturn, btAdd);
+
+        SetLayout.setAddEditLayout(
+                panel1,
+                lFirstName, lLastName, lSVN, lBirthDate, lStreet, lStreetNumber, lPostalCode, lCity,
+                lGender, lNationality, lInsurance,
+                panel2,
+                tfFirstName, tfLastName, tfSVN, tfBirthDate, tfStreet, tfStreetNumber, tfPostalCode, tfCity,
+                cbGender, cbNationality, cbInsurance,
+                contentPane,
+                btReturn, btAdd
+        );
     }
 
-    public void addColor (){
-
+    public void addColor() {
         SetLayout.setAddEditColor(contentPane, panel1, panel2, btAdd, btReturn);
     }
-
-
-
 }
+
 

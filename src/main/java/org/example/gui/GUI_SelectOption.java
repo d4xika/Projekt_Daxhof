@@ -3,11 +3,12 @@ package org.example.gui;
 import org.example.model.Patient;
 
 import javax.swing.*;
-import javax.swing.table.*;
+import java.awt.*;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-
 
 public class GUI_SelectOption extends JFrame {
     private JPanel contentPane;
@@ -22,7 +23,6 @@ public class GUI_SelectOption extends JFrame {
     private JPanel pButton;
 
     public GUI_SelectOption() {
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
         setTitle("Select option");
@@ -42,22 +42,21 @@ public class GUI_SelectOption extends JFrame {
                 });
             }
         });
+
         btSearch.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillPatientTable();
-
+                //Thread für Search
+                new Thread(GUI_SelectOption.this::fillPatientTable).start();
             }
         });
 
         btEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 int row = tPatients.getSelectedRow();
 
                 if (row >= 0) {
-
                     DefaultTableModel model = (DefaultTableModel) tPatients.getModel();
                     int id = (int) model.getValueAt(row, 0);
 
@@ -66,8 +65,7 @@ public class GUI_SelectOption extends JFrame {
                         GUI_edit gui = new GUI_edit(id);
                         gui.setVisible(true);
                     });
-                }
-                else {
+                } else {
                     UIManager.put("OptionPane.background", SetLayout.cBackground);
                     UIManager.put("Panel.background", SetLayout.cBackground);
                     JOptionPane.showMessageDialog(null, "Please select a patient");
@@ -78,14 +76,11 @@ public class GUI_SelectOption extends JFrame {
         btDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 int row = tPatients.getSelectedRow();
 
                 if (row >= 0) {
-
                     DefaultTableModel model = (DefaultTableModel) tPatients.getModel();
                     int id = (int) model.getValueAt(row, 0);
-
 
                     UIManager.put("OptionPane.background", SetLayout.cBackground);
                     UIManager.put("Panel.background", SetLayout.cBackground);
@@ -95,17 +90,18 @@ public class GUI_SelectOption extends JFrame {
                             JOptionPane.YES_NO_OPTION);
 
                     if (confirm == JOptionPane.YES_OPTION) {
-                        UIManager.put("OptionPane.background", SetLayout.cBackground);
-                        UIManager.put("Panel.background", SetLayout.cBackground);
-                        Patient.deletePatient(id);
-                        UIManager.put("OptionPane.background", SetLayout.cBackground);
-                        UIManager.put("Panel.background", SetLayout.cBackground);
-                        JOptionPane.showMessageDialog(null, "Patient deleted");
-                        fillPatientTable();
+                        //Thread für Delete
+                        new Thread(() -> {
+                            Patient.deletePatient(id);
+                            SwingUtilities.invokeLater(() -> {
+                                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                                UIManager.put("Panel.background", SetLayout.cBackground);
+                                JOptionPane.showMessageDialog(null, "Patient deleted");
+                                fillPatientTable();
+                            });
+                        }).start();
                     }
-
-
-                }else {
+                } else {
                     UIManager.put("OptionPane.background", SetLayout.cBackground);
                     UIManager.put("Panel.background", SetLayout.cBackground);
                     JOptionPane.showMessageDialog(null, "Please select a patient");
@@ -154,7 +150,6 @@ public class GUI_SelectOption extends JFrame {
             }
         });
 
-
         menuBar.add(Box.createHorizontalGlue());
 
         JMenu logoutMenu = new JMenu("Logout");
@@ -176,73 +171,72 @@ public class GUI_SelectOption extends JFrame {
     }
 
     public void fillPatientTable() {
+        new Thread(() -> {
+            List<Patient> patients;
 
-        List<Patient> patients;
-
-        if (tfPatientName.getText().isEmpty()) {
-            patients = Patient.getAllPatients();
-        } else {
-            patients = Patient.searchPatients(tfPatientName.getText());
-        }
-
-        DefaultTableModel tableModel = new DefaultTableModel() {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+            if (tfPatientName.getText().isEmpty()) {
+                patients = Patient.getAllPatients();
+            } else {
+                patients = Patient.searchPatients(tfPatientName.getText());
             }
-        };
 
-        tableModel.addColumn("ID");
-        tableModel.addColumn("first Name");
-        tableModel.addColumn("last Name");
-        tableModel.addColumn("SVN");
-        tableModel.addColumn("Birth Date");
-        tableModel.addColumn("Street");
-        tableModel.addColumn("Str.Nr.");
-        tableModel.addColumn("Post.Co.");
-        tableModel.addColumn("City");
-        tableModel.addColumn("Gender");
-        tableModel.addColumn("Nationality");
-        tableModel.addColumn("Insurance");
+            DefaultTableModel tableModel = new DefaultTableModel() {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
 
-        tPatients.getTableHeader().setReorderingAllowed(false);
-        tPatients.setModel(tableModel);
+            tableModel.addColumn("ID");
+            tableModel.addColumn("first Name");
+            tableModel.addColumn("last Name");
+            tableModel.addColumn("SVN");
+            tableModel.addColumn("Birth Date");
+            tableModel.addColumn("Street");
+            tableModel.addColumn("Str.Nr.");
+            tableModel.addColumn("Post.Co.");
+            tableModel.addColumn("City");
+            tableModel.addColumn("Gender");
+            tableModel.addColumn("Nationality");
+            tableModel.addColumn("Insurance");
 
-        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
-        tPatients.setRowSorter(sorter);
-        sorter.setSortable(3, false);
-        sorter.setSortable(5, false);
-        sorter.setSortable(6, false);
+            tPatients.getTableHeader().setReorderingAllowed(false);
+            tPatients.setModel(tableModel);
+            SetLayout.customizeTable(tPatients);
 
+            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+            tPatients.setRowSorter(sorter);
+            sorter.setSortable(3, false);
+            sorter.setSortable(5, false);
+            sorter.setSortable(6, false);
 
-        for (Patient patient : patients) {
-            tableModel.addRow(new Object[]{
-                    patient.getIdPatients(), patient.getFirstNamePatients(), patient.getLastNamePatients(),
-                    patient.getSvnPatients(), patient.getBirthDatePatients(), patient.getStreetPatients(),
-                    patient.getStreetNumberPatients(), patient.getPostalCodePatients(), patient.getCityPatients(),
-                    Patient.getGender(patient.getIdGender()), Patient.getNationality(patient.getIdNationality()), Patient.getInsurance(patient.getIdInsurance()),
+            for (Patient patient : patients) {
+                tableModel.addRow(new Object[]{
+                        patient.getIdPatients(), patient.getFirstNamePatients(), patient.getLastNamePatients(),
+                        patient.getSvnPatients(), patient.getBirthDatePatients(), patient.getStreetPatients(),
+                        patient.getStreetNumberPatients(), patient.getPostalCodePatients(), patient.getCityPatients(),
+                        Patient.getGender(patient.getIdGender()), Patient.getNationality(patient.getIdNationality()), Patient.getInsurance(patient.getIdInsurance()),
+                });
+            }
+
+            SetLayout.customizeTable(tPatients);
+            SwingUtilities.invokeLater(() -> {
+                if (patients.isEmpty()) {
+                    UIManager.put("OptionPane.background", SetLayout.cBackground);
+                    UIManager.put("Panel.background", SetLayout.cBackground);
+                    JOptionPane.showMessageDialog(null, "No patients found");
+                }
             });
-        }
-
-        SetLayout.customizeTable(tPatients);
-        if (patients.isEmpty()) {
-            UIManager.put("OptionPane.background", SetLayout.cBackground);
-            UIManager.put("Panel.background", SetLayout.cBackground);
-            JOptionPane.showMessageDialog(null, "No patients found");
-        }
+        }).start();
     }
 
     public void setLayout() {
-
-        setSize(1100,600);
+        setSize(1100, 600);
         setLocationRelativeTo(null);
-        SetLayout.setSOLayout(contentPane, tfPatientName, spPatientsFound, lEnter, pButton,btSearch, btAdd, btEdit, btDelete);
+        SetLayout.setSOLayout(contentPane, tfPatientName, spPatientsFound, lEnter, pButton, btSearch, btAdd, btEdit, btDelete);
     }
 
-    public void addColor (){
-
-        SetLayout.setSOColor(contentPane, spPatientsFound, pButton,btSearch, btAdd, btEdit, btDelete);
+    public void addColor() {
+        SetLayout.setSOColor(contentPane, spPatientsFound, pButton, btSearch, btAdd, btEdit, btDelete);
     }
-    
 }
-

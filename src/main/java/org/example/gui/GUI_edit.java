@@ -38,7 +38,6 @@ public class GUI_edit extends JFrame {
     private JPanel panel1;
     private JPanel panel2;
 
-
     GUI_edit(int id) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
@@ -46,8 +45,9 @@ public class GUI_edit extends JFrame {
         setLayout();
         addColor();
 
-        fillEditBoxes();
-        fillTextFields(Patient.getPatient(id));
+        // Lade Komboboxen und Textfelder in einem separaten Thread
+        new Thread(this::fillEditBoxes).start();
+        new Thread(() -> fillTextFields(Patient.getPatient(id))).start();
 
         btReturn.addActionListener(new ActionListener() {
             @Override
@@ -63,57 +63,86 @@ public class GUI_edit extends JFrame {
         btEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean edited = editPatient(id);
-                if (edited) {
-                    dispose();
-                    SwingUtilities.invokeLater(() -> {
-                        GUI_SelectOption gui = new GUI_SelectOption();
-                        gui.setVisible(true);
-                    });
-                }
+                new Thread(() -> {
+                    boolean edited = editPatient(id);
+                    if (edited) {
+                        SwingUtilities.invokeLater(() -> {
+                            dispose();
+                            GUI_SelectOption gui = new GUI_SelectOption();
+                            gui.setVisible(true);
+                        });
+                    } else {
+                        SwingUtilities.invokeLater(() -> {
+                            JOptionPane.showMessageDialog(
+                                    GUI_edit.this,
+                                    "Fehler beim Bearbeiten des Patienten.",
+                                    "Fehler",
+                                    JOptionPane.ERROR_MESSAGE
+                            );
+                        });
+                    }
+                }).start();
             }
         });
     }
 
     public void fillEditBoxes() {
-        GUI_add.fillBoxes(cbGender, cbNationality, cbInsurance);
+        SwingUtilities.invokeLater(() -> GUI_add.fillBoxes(cbGender, cbNationality, cbInsurance));
     }
 
-    public void fillTextFields (Patient p) {
-
-        tfFirstName.setText(p.getFirstNamePatients());
-        tfLastName.setText(p.getLastNamePatients());
-        tfSVN.setText(String.valueOf(p.getSvnPatients()));
-        tfBirthDate.setText(p.getBirthDatePatients().toString());
-        tfStreet.setText(p.getStreetPatients());
-        tfStreetNumber.setText(String.valueOf(p.getStreetNumberPatients()));
-        tfPostalCode.setText(String.valueOf(p.getPostalCodePatients()));
-        tfCity.setText(p.getCityPatients());
-        cbGender.setSelectedItem(Patient.getGender(p.getIdGender()));
-        cbNationality.setSelectedItem(Patient.getNationality(p.getIdNationality()));
-        cbInsurance.setSelectedItem(Patient.getInsurance(p.getIdInsurance()));
-
+    public void fillTextFields(Patient p) {
+        SwingUtilities.invokeLater(() -> {
+            tfFirstName.setText(p.getFirstNamePatients());
+            tfLastName.setText(p.getLastNamePatients());
+            tfSVN.setText(String.valueOf(p.getSvnPatients()));
+            tfBirthDate.setText(p.getBirthDatePatients().toString());
+            tfStreet.setText(p.getStreetPatients());
+            tfStreetNumber.setText(String.valueOf(p.getStreetNumberPatients()));
+            tfPostalCode.setText(String.valueOf(p.getPostalCodePatients()));
+            tfCity.setText(p.getCityPatients());
+            cbGender.setSelectedItem(Patient.getGender(p.getIdGender()));
+            cbNationality.setSelectedItem(Patient.getNationality(p.getIdNationality()));
+            cbInsurance.setSelectedItem(Patient.getInsurance(p.getIdInsurance()));
+        });
     }
 
     public boolean editPatient(int id) {
 
-        return Patient.savePatient(id, tfFirstName.getText(), tfLastName.getText(), tfSVN.getText(), tfBirthDate.getText(), tfStreet.getText(),
-                tfStreetNumber.getText(), tfPostalCode.getText(), tfCity.getText(), cbGender, cbNationality, cbInsurance);
+        return Patient.savePatient(
+                id,
+                tfFirstName.getText(),
+                tfLastName.getText(),
+                tfSVN.getText(),
+                tfBirthDate.getText(),
+                tfStreet.getText(),
+                tfStreetNumber.getText(),
+                tfPostalCode.getText(),
+                tfCity.getText(),
+                cbGender,
+                cbNationality,
+                cbInsurance
+        );
     }
-    public void setLayout(){
 
-        setSize(370,460);
-        setLocationRelativeTo(null);
-        SetLayout.setAddEditLayout(panel1, lFirstName, lLastName, lSVN, lBirthDate, lStreet, lStreetNumber, lPostalCode, lCity, lGender, lNationality, lInsurance, panel2, tfFirstName, tfLastName, tfSVN, tfBirthDate, tfStreet, tfStreetNumber, tfPostalCode, tfCity, cbGender, cbNationality, cbInsurance, contentPane, btReturn, btEdit);
+    public void setLayout() {
+        setSize(370, 460);
+        setLocationRelativeTo(null); // Zentriert das Fenster auf dem Bildschirm
+        SetLayout.setAddEditLayout(
+                panel1,
+                lFirstName, lLastName, lSVN, lBirthDate, lStreet, lStreetNumber, lPostalCode, lCity,
+                lGender, lNationality, lInsurance,
+                panel2,
+                tfFirstName, tfLastName, tfSVN, tfBirthDate, tfStreet, tfStreetNumber, tfPostalCode, tfCity,
+                cbGender, cbNationality, cbInsurance,
+                contentPane,
+                btReturn, btEdit
+        );
     }
-    public void addColor (){
 
+    public void addColor() {
         SetLayout.setAddEditColor(contentPane, panel1, panel2, btEdit, btReturn);
     }
 
-
-
-
-
 }
+
 
