@@ -171,63 +171,98 @@ public class GUI_SelectOption extends JFrame {
     }
 
     public void fillPatientTable() {
-        new Thread(() -> {
-            List<Patient> patients;
 
-            if (tfPatientName.getText().isEmpty()) {
-                patients = Patient.getAllPatients();
-            } else {
-                patients = Patient.searchPatients(tfPatientName.getText());
-            }
+        JDialog loadingDialog = new JDialog ((JFrame)null, "Loading patients", true);
+        JLabel loadingLabel = new JLabel("<html>Loading patients...<br>Please wait!</html>"); //um JLabel in 2 Zeilen zu gliedern
+        loadingLabel.setBackground(SetLayout.cBackground);
+        loadingLabel.setOpaque(true);
+        loadingLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        loadingDialog.add(loadingLabel);
+        loadingDialog.setSize(300,150);
+        loadingDialog.setLocationRelativeTo(null);
+        loadingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        SwingUtilities.invokeLater(() -> loadingDialog.setVisible(true));
 
-            DefaultTableModel tableModel = new DefaultTableModel() {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return false;
+        new SwingWorker<DefaultTableModel, Void>() {
+            @Override
+            protected DefaultTableModel doInBackground() throws Exception {
+                Thread.sleep(500); //wartet 500ms
+                List<Patient> patients;
+
+                if (tfPatientName.getText().isEmpty()) {
+                    patients = Patient.getAllPatients();
+                } else {
+                    patients = Patient.searchPatients(tfPatientName.getText());
                 }
-            };
 
-            tableModel.addColumn("ID");
-            tableModel.addColumn("first Name");
-            tableModel.addColumn("last Name");
-            tableModel.addColumn("SVN");
-            tableModel.addColumn("Birth Date");
-            tableModel.addColumn("Street");
-            tableModel.addColumn("Str.Nr.");
-            tableModel.addColumn("Post.Co.");
-            tableModel.addColumn("City");
-            tableModel.addColumn("Gender");
-            tableModel.addColumn("Nationality");
-            tableModel.addColumn("Insurance");
+                DefaultTableModel tableModel = new DefaultTableModel() {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                tableModel.addColumn("ID");
+                tableModel.addColumn("first Name");
+                tableModel.addColumn("last Name");
+                tableModel.addColumn("SVN");
+                tableModel.addColumn("Birth Date");
+                tableModel.addColumn("Street");
+                tableModel.addColumn("Str.Nr.");
+                tableModel.addColumn("Post.Co.");
+                tableModel.addColumn("City");
+                tableModel.addColumn("Gender");
+                tableModel.addColumn("Nationality");
+                tableModel.addColumn("Insurance");
 
-            tPatients.getTableHeader().setReorderingAllowed(false);
-            tPatients.setModel(tableModel);
-            SetLayout.customizeTable(tPatients);
+                tPatients.getTableHeader().setReorderingAllowed(false);
+                tPatients.setModel(tableModel);
+                SetLayout.customizeTable(tPatients);
 
-            TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
-            tPatients.setRowSorter(sorter);
-            sorter.setSortable(3, false);
-            sorter.setSortable(5, false);
-            sorter.setSortable(6, false);
+                TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
+                tPatients.setRowSorter(sorter);
+                sorter.setSortable(3, false);
+                sorter.setSortable(5, false);
+                sorter.setSortable(6, false);
 
-            for (Patient patient : patients) {
-                tableModel.addRow(new Object[]{
-                        patient.getIdPatients(), patient.getFirstNamePatients(), patient.getLastNamePatients(),
-                        patient.getSvnPatients(), patient.getBirthDatePatients(), patient.getStreetPatients(),
-                        patient.getStreetNumberPatients(), patient.getPostalCodePatients(), patient.getCityPatients(),
-                        Patient.getGender(patient.getIdGender()), Patient.getNationality(patient.getIdNationality()), Patient.getInsurance(patient.getIdInsurance()),
+                for (Patient patient : patients) {
+                    tableModel.addRow(new Object[]{
+                            patient.getIdPatients(), patient.getFirstNamePatients(), patient.getLastNamePatients(),
+                            patient.getSvnPatients(), patient.getBirthDatePatients(), patient.getStreetPatients(),
+                            patient.getStreetNumberPatients(), patient.getPostalCodePatients(), patient.getCityPatients(),
+                            Patient.getGender(patient.getIdGender()), Patient.getNationality(patient.getIdNationality()), Patient.getInsurance(patient.getIdInsurance()),
+                    });
+                }
+
+                SetLayout.customizeTable(tPatients);
+                SwingUtilities.invokeLater(() -> {
+                    if (patients.isEmpty()) {
+                        UIManager.put("OptionPane.background", SetLayout.cBackground);
+                        UIManager.put("Panel.background", SetLayout.cBackground);
+                        JOptionPane.showMessageDialog(null, "No patients found");
+                    }
                 });
+                return tableModel;
             }
+            @Override
+            protected void done() {
+                try{
+                    DefaultTableModel tableModel = get();
+                    tPatients.setModel(tableModel);
 
-            SetLayout.customizeTable(tPatients);
-            SwingUtilities.invokeLater(() -> {
-                if (patients.isEmpty()) {
+                    if(tableModel.getRowCount() == 0) {
+                        UIManager.put("OptionPane.background", SetLayout.cBackground);
+                        UIManager.put("Panel.background", SetLayout.cBackground);
+                        JOptionPane.showMessageDialog(null, "No patients found");
+                    }
+                } catch (Exception e){
                     UIManager.put("OptionPane.background", SetLayout.cBackground);
                     UIManager.put("Panel.background", SetLayout.cBackground);
-                    JOptionPane.showMessageDialog(null, "No patients found");
+                    JOptionPane.showMessageDialog(null, "Problem with loading patients");
+                } finally {
+                    loadingDialog.dispose();
                 }
-            });
-        }).start();
+            }
+        }.execute();
     }
 
     public void setLayout() {
