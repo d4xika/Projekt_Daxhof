@@ -196,7 +196,7 @@ public class GUI_SelectOption extends JFrame {
         new SwingWorker<DefaultTableModel, Void>() {
             @Override
             protected DefaultTableModel doInBackground() throws Exception {
-                Thread.sleep(500); //wartet 500ms
+                Thread.sleep(50); //wartet 250ms
                 List<Patient> patients;
 
                 if (tfPatientName.getText().isEmpty()) {

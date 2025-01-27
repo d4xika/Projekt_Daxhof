@@ -76,17 +76,6 @@ public class GUI_edit extends JFrame {
                                 GUI_SelectOption gui = new GUI_SelectOption();
                                 gui.setVisible(true);
                             });
-                        } else {
-                            SwingUtilities.invokeLater(() -> {
-                                UIManager.put("OptionPane.background", SetLayout.cBackground);
-                                UIManager.put("Panel.background", SetLayout.cBackground);
-                                JOptionPane.showMessageDialog(
-                                        GUI_edit.this,
-                                        "There was a problem editing the patient",
-                                        "Error",
-                                        JOptionPane.ERROR_MESSAGE
-                                );
-                            });
                         }
                 }).start();
             }

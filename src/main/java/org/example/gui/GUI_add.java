@@ -75,15 +75,6 @@ public class GUI_add extends JFrame {
                             GUI_SelectOption gui = new GUI_SelectOption();
                             gui.setVisible(true);
                         });
-                    } else {
-                        SwingUtilities.invokeLater(() -> {
-                            JOptionPane.showMessageDialog(
-                                    GUI_add.this,
-                                    "There was a problem adding the patient. Please check the data and try again.",
-                                    "Error",
-                                    JOptionPane.ERROR_MESSAGE
-                            );
-                        });
                     }
                 }).start();
             }
