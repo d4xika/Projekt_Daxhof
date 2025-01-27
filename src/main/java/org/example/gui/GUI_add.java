@@ -67,7 +67,7 @@ public class GUI_add extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Thread(() -> {
-                    boolean added = addNewPatient(); // Überprüfe, ob Patienten erfolgreich hinzugefügt werden
+                    boolean added = addNewPatient();
 
                     if (added) {
                         SwingUtilities.invokeLater(() -> {
@@ -76,12 +76,11 @@ public class GUI_add extends JFrame {
                             gui.setVisible(true);
                         });
                     } else {
-                        // Protokollierung für detailliertere Fehleranalyse
                         SwingUtilities.invokeLater(() -> {
                             JOptionPane.showMessageDialog(
                                     GUI_add.this,
-                                    "Fehler beim Hinzufügen des Patienten. Überprüfen Sie die Eingabedaten und versuchen Sie es erneut.",
-                                    "Fehler",
+                                    "There was a problem adding the patient. Please check the data and try again.",
+                                    "Error",
                                     JOptionPane.ERROR_MESSAGE
                             );
                         });
@@ -122,7 +121,8 @@ public class GUI_add extends JFrame {
      * @return boolean if adding was successfully
      */
     public boolean addNewPatient() {
-        try {Patient.savePatient(
+        try {
+            boolean success = Patient.savePatient(
                 0,
                 tfFirstName.getText(),
                 tfLastName.getText(),
@@ -135,11 +135,13 @@ public class GUI_add extends JFrame {
                 cbGender,
                 cbNationality,
                 cbInsurance);
-
-            return true; // Rückgabe true, wenn der Patient erfolgreich hinzugefügt wurde
+            if(!success){
+                return false;
+            }
+            return true;
         } catch (Exception ex) {
-            ex.printStackTrace(); // Fehler wird in der Konsole ausgegeben
-            return false; // Rückgabe false im Fehlerfall
+            ex.printStackTrace();
+            return false;
         }
 
     }

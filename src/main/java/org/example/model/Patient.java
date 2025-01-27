@@ -559,7 +559,7 @@ public class Patient {
 
                     setPreparedStatementPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients,
                             streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender, idNationality,
-                            idInsurance, connection, ps);
+                            idInsurance, ps);
 
                     ps.close();
                     connection.close();
@@ -688,13 +688,24 @@ public class Patient {
         } else {
 
             try {
-
                 long SVN = Long.parseLong(svnPatients);
                 java.sql.Date birthDate = java.sql.Date.valueOf(birthDatePatients);
                 int streetNumber = Integer.parseInt(streetNumberPatients);
                 int postalCode = Integer.parseInt(postalCodePatients);
 
-                // Worker-Thread für die Patientenbearbeitung oder -einfügung
+                //Überprüfung Übereinstimmung von Geburtsdaten-Teil der SVN (ddMMyy) mit dem Geburtsdatum
+               String[] birthDateParts = birthDatePatients.split("-"); //Geburtstdatum in yyyy-mm-dd zerlegen
+                String birthDateFormatted = birthDateParts[2] + birthDateParts[1] + birthDateParts[0].substring(2); //Format ddMMyy
+                String svnBirthDatePart = svnPatients.substring(svnPatients.length() - 6); //Letzte 6 Ziffern der SVN
+
+                if (!svnBirthDatePart.equals(birthDateFormatted)) {
+                    UIManager.put("OptionPane.background", SetLayout.cBackground);
+                    UIManager.put("Panel.background", SetLayout.cBackground);
+                    JOptionPane.showMessageDialog(null, "The birth date part of the SVN (ddMMyy) must match the birth date!");
+                    return false;
+                }
+
+                // Worker-Thread für add und edit
                 Thread workerThread = new Thread(() -> {
                     if (idPatients == 0) {
                         Patient.addPatient(firstNamePatients, lastNamePatients, SVN, birthDate, streetPatients,
@@ -717,7 +728,7 @@ public class Patient {
                     }
                 });
 
-                workerThread.start(); // Thread starten
+                workerThread.start(); //Thread starten
 
             } catch (NumberFormatException e) {
                 UIManager.put("OptionPane.background", SetLayout.cBackground);
@@ -759,7 +770,7 @@ public class Patient {
             }
         });
 
-        workerThread.start(); // Thread starten
+        workerThread.start(); //Thread starten
     }
 
     @Override

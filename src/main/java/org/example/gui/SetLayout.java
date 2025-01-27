@@ -277,7 +277,7 @@ public class SetLayout {
         columnModel.getColumn(5).setPreferredWidth(200);//Street Name
         columnModel.getColumn(6).setPreferredWidth(80);//Street Number
         columnModel.getColumn(7).setPreferredWidth(110);//Postalcode
-        columnModel.getColumn(8).setPreferredWidth(150);//City
+        columnModel.getColumn(8).setPreferredWidth(175);//City
         columnModel.getColumn(9).setPreferredWidth(100);//Gender
         columnModel.getColumn(10).setPreferredWidth(150);//Natiionality
         columnModel.getColumn(11).setPreferredWidth(125);//Insurance

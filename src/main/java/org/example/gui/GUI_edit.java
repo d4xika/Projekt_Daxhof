@@ -69,23 +69,25 @@ public class GUI_edit extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Thread(() -> {
-                    boolean edited = editPatient(id);
-                    if (edited) {
-                        SwingUtilities.invokeLater(() -> {
-                            dispose();
-                            GUI_SelectOption gui = new GUI_SelectOption();
-                            gui.setVisible(true);
-                        });
-                    } else {
-                        SwingUtilities.invokeLater(() -> {
-                            JOptionPane.showMessageDialog(
-                                    GUI_edit.this,
-                                    "Fehler beim Bearbeiten des Patienten.",
-                                    "Fehler",
-                                    JOptionPane.ERROR_MESSAGE
-                            );
-                        });
-                    }
+                        boolean edited = editPatient(id);
+                        if (edited) {
+                            SwingUtilities.invokeLater(() -> {
+                                dispose();
+                                GUI_SelectOption gui = new GUI_SelectOption();
+                                gui.setVisible(true);
+                            });
+                        } else {
+                            SwingUtilities.invokeLater(() -> {
+                                UIManager.put("OptionPane.background", SetLayout.cBackground);
+                                UIManager.put("Panel.background", SetLayout.cBackground);
+                                JOptionPane.showMessageDialog(
+                                        GUI_edit.this,
+                                        "There was a problem editing the patient",
+                                        "Error",
+                                        JOptionPane.ERROR_MESSAGE
+                                );
+                            });
+                        }
                 }).start();
             }
         });
@@ -125,20 +127,27 @@ public class GUI_edit extends JFrame {
      */
     public boolean editPatient(int id) {
 
-        return Patient.savePatient(
-                id,
-                tfFirstName.getText(),
-                tfLastName.getText(),
-                tfSVN.getText(),
-                tfBirthDate.getText(),
-                tfStreet.getText(),
-                tfStreetNumber.getText(),
-                tfPostalCode.getText(),
-                tfCity.getText(),
-                cbGender,
-                cbNationality,
-                cbInsurance
-        );
+        try {
+            boolean success = Patient.savePatient(
+                    id,
+                    tfFirstName.getText(),
+                    tfLastName.getText(),
+                    tfSVN.getText(),
+                    tfBirthDate.getText(),
+                    tfStreet.getText(),
+                    tfStreetNumber.getText(),
+                    tfPostalCode.getText(),
+                    tfCity.getText(),
+                    cbGender,
+                    cbNationality,
+                    cbInsurance);
+            if (!success){
+                return false;
+            } return true;
+        }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -146,7 +155,7 @@ public class GUI_edit extends JFrame {
      */
     public void setLayout() {
         setSize(370, 460);
-        setLocationRelativeTo(null); // Zentriert das Fenster auf dem Bildschirm
+        setLocationRelativeTo(null);
         SetLayout.setAddEditLayout(
                 panel1,
                 lFirstName, lLastName, lSVN, lBirthDate, lStreet, lStreetNumber, lPostalCode, lCity,

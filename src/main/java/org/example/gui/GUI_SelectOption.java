@@ -230,6 +230,7 @@ public class GUI_SelectOption extends JFrame {
 
                 TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tableModel);
                 tPatients.setRowSorter(sorter);
+                sorter.setSortable(0,false);
                 sorter.setSortable(3, false);
                 sorter.setSortable(5, false);
                 sorter.setSortable(6, false);
@@ -279,7 +280,7 @@ public class GUI_SelectOption extends JFrame {
      * sets layout of the GUI
      */
     public void setLayout() {
-        setSize(1100, 600);
+        setSize(1200, 600);
         setLocationRelativeTo(null);
         SetLayout.setSOLayout(contentPane, tfPatientName, spPatientsFound, lEnter, pButton, btSearch, btAdd, btEdit, btDelete);
     }
