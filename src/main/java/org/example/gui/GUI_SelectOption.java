@@ -22,6 +22,10 @@ public class GUI_SelectOption extends JFrame {
     private JLabel lEnter;
     private JPanel pButton;
 
+    /**
+     * constructor of GUI_SelectOption
+     * calls methods for the GUI and contains ActionListeners for buttons
+     */
     public GUI_SelectOption() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
@@ -110,6 +114,9 @@ public class GUI_SelectOption extends JFrame {
         });
     }
 
+    /**
+     * initializes Menubar with different Menus and MenuItems
+     */
     public void initializeMenu() {
         JMenuBar menuBar = new JMenuBar();
         menuBar.setBackground(SetLayout.cButton);
@@ -170,6 +177,9 @@ public class GUI_SelectOption extends JFrame {
         });
     }
 
+    /**
+     * fills the patient table with the patients from SQL
+     */
     public void fillPatientTable() {
 
         JDialog loadingDialog = new JDialog ((JFrame)null, "Loading patients", true);
@@ -265,12 +275,18 @@ public class GUI_SelectOption extends JFrame {
         }.execute();
     }
 
+    /**
+     * sets layout of the GUI
+     */
     public void setLayout() {
         setSize(1100, 600);
         setLocationRelativeTo(null);
         SetLayout.setSOLayout(contentPane, tfPatientName, spPatientsFound, lEnter, pButton, btSearch, btAdd, btEdit, btDelete);
     }
 
+    /**
+     * sets color of the GUI
+     */
     public void addColor() {
         SetLayout.setSOColor(contentPane, spPatientsFound, pButton, btSearch, btAdd, btEdit, btDelete);
     }

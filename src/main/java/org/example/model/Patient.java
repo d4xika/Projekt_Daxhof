@@ -28,7 +28,21 @@ public class Patient {
     private static final String user = "23daxberger";
     private static final String password = "geb23";
 
-
+    /**
+     * constructor of Patient
+     * @param idPatients patient ID
+     * @param firstNamePatients first name of patient
+     * @param lastNamePatients last name of patient
+     * @param svnPatients SVN of patient
+     * @param birthDatePatients birthdate of patient
+     * @param streetPatients street of patient
+     * @param streetNumberPatients street number of patient
+     * @param postalCodePatients postal code of patient
+     * @param cityPatients city of patient
+     * @param idGender gender of patient
+     * @param idNationality nationality of patient
+     * @param idInsurance insurance of patient
+     */
     public Patient(int idPatients, String firstNamePatients, String lastNamePatients, long svnPatients,
                    Date birthDatePatients, String streetPatients, int streetNumberPatients,
                    int postalCodePatients, String cityPatients, int idGender, int idNationality,
@@ -48,6 +62,10 @@ public class Patient {
 
     }
 
+    /**
+     * gets the list of genders from the database
+     * @return list of genders
+     */
     public static List<Gender> getGenderList() {
 
         final List<Gender> genders = new ArrayList<>();
@@ -89,6 +107,11 @@ public class Patient {
         return genders;  // Gib die Liste zurück, nachdem der Thread fertig ist
     }
 
+    /**
+     * gets a gender object
+     * @param id gender ID
+     * @return gender object
+     */
     public static Gender getGender(int id) {
         // Definiere die Variable für das Gender-Objekt
         final Gender[] g = new Gender[1];
@@ -130,6 +153,10 @@ public class Patient {
         return g[0];  // Gib das Gender-Objekt zurück, nachdem der Thread fertig ist
     }
 
+    /**
+     * gets the list of nationalities from the database
+     * @return nationality list
+     */
     public static List<Nationality> getNationalityList() {
         final List<Nationality> nationalities = new ArrayList<>();
 
@@ -168,7 +195,14 @@ public class Patient {
         }
 
         return nationalities; // Liste zurückgeben, nachdem der Thread abgeschlossen wurde
+
     }
+
+    /**
+     * gets a nationality object
+     * @param id nationality ID
+     * @return nationality object
+     */
     public static Nationality getNationality(int id) {
         final Nationality[] n = new Nationality[1]; // Array zum Speichern des Ergebnisses
 
@@ -207,6 +241,11 @@ public class Patient {
 
         return n[0]; // Das gefundene Nationality-Objekt zurückgeben
     }
+
+    /**
+     * gets the list of insurances from the database
+     * @return insurance list
+     */
     public static List<Insurance> getInsuranceList() {
         final List<Insurance> insurances = new ArrayList<>();
 
@@ -246,6 +285,12 @@ public class Patient {
 
         return insurances; // Liste zurückgeben, nachdem der Thread abgeschlossen wurde
     }
+
+    /**
+     * gets an insurance object
+     * @param id insurance ID
+     * @return insurance object
+     */
     public static Insurance getInsurance(int id) {
         final Insurance[] i = new Insurance[1]; // Array zum Speichern des Ergebnisses
 
@@ -285,6 +330,10 @@ public class Patient {
         return i[0]; // Das gefundene Insurance-Objekt zurückgeben
     }
 
+    /**
+     * gets all saved patients from the database
+     * @return list of all patients
+     */
     public static List<Patient> getAllPatients() {
         final List<Patient>[] patients = new List[]{List.of()}; // Array für die Liste von Patienten
 
@@ -317,6 +366,12 @@ public class Patient {
 
         return patients[0]; // Rückgabe der Patientenliste
     }
+
+    /**
+     * gets a certain patient from the database
+     * @param id patient id of certain patient
+     * @return certain patient
+     */
     public static Patient getPatient(int id) {
         final Patient[] p = new Patient[1]; // Array für das Patient-Objekt
 
@@ -366,6 +421,12 @@ public class Patient {
 
         return p[0]; // Rückgabe des Patientenobjekts
     }
+
+    /**
+     * searches in the database for a patient containing the parameter
+     * @param namePatient name of the patient that is searched
+     * @return list of found patients
+     */
     public static List<Patient> searchPatients(String namePatient) {
         final List<Patient>[] patients = new List[]{new ArrayList<>()}; // Array für die Patientenliste
 
@@ -411,6 +472,12 @@ public class Patient {
         return patients[0]; // Rückgabe der gefundenen Patientenliste
     }
 
+    /**
+     * executes PreparedStatement for patient lists
+     * @param ps PreparedStatement wanted to use
+     * @return list of patients
+     * @throws SQLException if error with database
+     */
     private static List<Patient> returnPatients(PreparedStatement ps) throws SQLException {
         final List<Patient>[] patients = new List[]{new ArrayList<>()}; // Array für die Liste von Patienten
 
@@ -458,6 +525,21 @@ public class Patient {
 
         return patients[0]; // Rückgabe der Patientenliste
     }
+
+    /**
+     * adds patient to the database
+     * @param firstNamePatients first name of patient
+     * @param lastNamePatients last name of patient
+     * @param svnPatients SVN of patient
+     * @param birthDatePatients birthdate of patient
+     * @param streetPatients street of patient
+     * @param streetNumberPatients street number of patient
+     * @param postalCodePatients postal code of patient
+     * @param cityPatients city of patient
+     * @param idGender gender of patient
+     * @param idNationality nationality of patient
+     * @param idInsurance insurance of patient
+     */
     public static void addPatient(String firstNamePatients, String lastNamePatients, long svnPatients, Date birthDatePatients,
                                   String streetPatients, int streetNumberPatients, int postalCodePatients, String cityPatients,
                                   int idGender, int idNationality, int idInsurance) {
@@ -490,6 +572,21 @@ public class Patient {
         workerThread.start(); // Thread starten
     }
 
+    /**
+     * edits patient from the database
+     * @param id ID of patient
+     * @param firstNamePatients first name of patient
+     * @param lastNamePatients last name of patient
+     * @param svnPatients SVN of patient
+     * @param birthDatePatients birthdate of patient
+     * @param streetPatients street of patient
+     * @param streetNumberPatients street number of patient
+     * @param postalCodePatients postal code of patient
+     * @param cityPatients city of patient
+     * @param idGender gender of patient
+     * @param idNationality nationality of patient
+     * @param idInsurance insurance of patient
+     */
     public static void editPatient(int id, String firstNamePatients, String lastNamePatients, long svnPatients, Date birthDatePatients,
                                    String streetPatients, int streetNumberPatients, int postalCodePatients, String cityPatients,
                                    int idGender, int idNationality, int idInsurance) {
@@ -510,7 +607,7 @@ public class Patient {
                     ps.setInt(12, id);
                     setPreparedStatementPatient(firstNamePatients, lastNamePatients, svnPatients, (java.sql.Date) birthDatePatients,
                             streetPatients, streetNumberPatients, postalCodePatients, cityPatients, idGender,
-                            idNationality, idInsurance, connection, ps);
+                            idNationality, idInsurance, ps);
 
                     ps.close();
                     connection.close();
@@ -523,10 +620,26 @@ public class Patient {
         workerThread.start(); // Thread starten
     }
 
+    /**
+     * sets parameters of PreparedStatements of patient querys
+     * @param firstNamePatients first name of patient
+     * @param lastNamePatients last name of patient
+     * @param svnPatients SVN of patient
+     * @param birthDatePatients birthdate of patient
+     * @param streetPatients street of patient
+     * @param streetNumberPatients street number of patient
+     * @param postalCodePatients postal code of patient
+     * @param cityPatients city of patient
+     * @param idGender gender of patient
+     * @param idNationality nationality of patient
+     * @param idInsurance insurance of patient
+     * @param ps PreparedStatement to execute
+     * @throws SQLException if error with database
+     */
     private static void setPreparedStatementPatient(String firstNamePatients, String lastNamePatients, long svnPatients,
                                                     java.sql.Date birthDatePatients, String streetPatients, int streetNumberPatients,
                                                     int postalCodePatients, String cityPatients, int idGender, int idNationality,
-                                                    int idInsurance, Connection connection, PreparedStatement ps) throws SQLException {
+                                                    int idInsurance, PreparedStatement ps) throws SQLException {
         ps.setString(1, firstNamePatients);
         ps.setString(2, lastNamePatients);
         ps.setLong(3, svnPatients);
@@ -541,10 +654,25 @@ public class Patient {
 
         ps.executeUpdate();
 
-        connection.close();
         ps.close();
     }
 
+    /**
+     * when adding or editing patient gets saved in database
+     * @param idPatients ID of patient
+     * @param firstNamePatients first name of patient
+     * @param lastNamePatients last name of patient
+     * @param svnPatients SVN of patient
+     * @param birthDatePatients birthdate of patient
+     * @param streetPatients street of patient
+     * @param streetNumberPatients street number of patient
+     * @param postalCodePatients postal code of patient
+     * @param cityPatients city of patient
+     * @param cbGender combobox gender
+     * @param cbNationality combobox nationality
+     * @param cbInsurance combobox insurance
+     * @return boolean if saving was successful
+     */
     public static boolean savePatient(int idPatients, String firstNamePatients, String lastNamePatients, String svnPatients, String birthDatePatients,
                                       String streetPatients, String streetNumberPatients, String postalCodePatients, String cityPatients,
                                       JComboBox<Gender> cbGender, JComboBox<Nationality> cbNationality, JComboBox<Insurance> cbInsurance) {
@@ -603,6 +731,11 @@ public class Patient {
         }
         return success.get();
     }
+
+    /**
+     * deletes patient from database
+     * @param id ID of patient to be deleted
+     */
     public static void deletePatient(int id) {
 
         Thread workerThread = new Thread(() -> {
@@ -635,98 +768,194 @@ public class Patient {
                 streetNumberPatients + postalCodePatients + cityPatients + idGender + idNationality + idInsurance;
     }
 
+    /**
+     * gets patient ID
+     * @return patient ID
+     */
     public int getIdPatients() {
         return idPatients;
     }
 
+    /**
+     * sets patient ID
+     * @param idPatients patient ID
+     */
     public void setIdPatients(int idPatients) {
         this.idPatients = idPatients;
     }
 
+    /**
+     * gets first name of patient
+     * @return first name of patient
+     */
     public String getFirstNamePatients() {
         return firstNamePatients;
     }
 
+    /**
+     * sets first name of patient
+     * @param firstNamePatients first name of patient
+     */
     public void setFirstNamePatients(String firstNamePatients) {
         this.firstNamePatients = firstNamePatients;
     }
 
+    /**
+     * gets last name of patient
+     * @return last name of patient
+     */
     public String getLastNamePatients() {
         return lastNamePatients;
     }
 
+    /**
+     * sets last name of patient
+     * @param lastNamePatients last name of patient
+     */
     public void setLastNamePatients(String lastNamePatients) {
         this.lastNamePatients = lastNamePatients;
     }
 
+    /**
+     * gets SVN of patient
+     * @return SVN of patient
+     */
     public long getSvnPatients() {
         return svnPatients;
     }
 
+    /**
+     * sets SVN of patient
+     * @param svnPatients SVN of patient
+     */
     public void setSvnPatients(long svnPatients) {
         this.svnPatients = svnPatients;
     }
 
+    /**
+     * gets birthdate of patient
+     * @return birthdate of patient
+     */
     public Date getBirthDatePatients() {
         return birthDatePatients;
     }
 
+    /**
+     * sets birthdate of patient
+     * @param birthDatePatients birthdate of patient
+     */
     public void setBirthDatePatients(Date birthDatePatients) {
         this.birthDatePatients = birthDatePatients;
     }
 
+    /**
+     * gets street of patient
+     * @return street of patient
+     */
     public String getStreetPatients() {
         return streetPatients;
     }
 
+    /**
+     * sets street of patient
+     * @param streetPatients street of patient
+     */
     public void setStreetPatients(String streetPatients) {
         this.streetPatients = streetPatients;
     }
 
+    /**
+     * gets street number of patient
+     * @return street number of patient
+     */
     public int getStreetNumberPatients() {
         return streetNumberPatients;
     }
 
+    /**
+     * sets street number of patient
+     * @param streetNumberPatients street number of patient
+     */
     public void setStreetNumberPatients(int streetNumberPatients) {
         this.streetNumberPatients = streetNumberPatients;
     }
 
+    /**
+     * gets postal code of patient
+     * @return postal code of patient
+     */
     public int getPostalCodePatients() {
         return postalCodePatients;
     }
 
+    /**
+     * sets postal code of patient
+     * @param postalCodePatients postal code of patient
+     */
     public void setPostalCodePatients(int postalCodePatients) {
         this.postalCodePatients = postalCodePatients;
     }
 
+    /**
+     * gets city of patient
+     * @return city of patient
+     */
     public String getCityPatients() {
         return cityPatients;
     }
 
+    /**
+     * sets city of patient
+     * @param cityPatients city of patient
+     */
     public void setCityPatients(String cityPatients) {
         this.cityPatients = cityPatients;
     }
 
+    /**
+     * gets gender ID
+     * @return gender ID
+     */
     public int getIdGender() {
         return idGender;
     }
 
+    /**
+     * sets gender ID
+     * @param idGender gender ID
+     */
     public void setIdGender(int idGender) {
         this.idGender = idGender;
     }
 
+    /**
+     * gets nationality ID
+     * @return nationality ID
+     */
     public int getIdNationality() {
         return idNationality;
     }
 
+    /**
+     * sets nationality ID
+     * @param idNationality nationality ID
+     */
     public void setIdNationality(int idNationality) {
         this.idNationality = idNationality;
     }
 
+    /**
+     * gets insurance ID
+     * @return insurance ID
+     */
     public int getIdInsurance() {
         return idInsurance;
     }
 
+    /**
+     * sets insurance ID
+     * @param idInsurance insurance ID
+     */
     public void setIdInsurance(int idInsurance) {
         this.idInsurance = idInsurance;
     }

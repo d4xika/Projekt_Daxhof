@@ -38,6 +38,11 @@ public class GUI_edit extends JFrame {
     private JPanel panel1;
     private JPanel panel2;
 
+    /**
+     * constructor of GUI_edit
+     * calls methods and contains ActionListeners for buttons
+     * @param id patient id of patient to be edited
+     */
     GUI_edit(int id) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setContentPane(contentPane);
@@ -86,10 +91,17 @@ public class GUI_edit extends JFrame {
         });
     }
 
+    /**
+     * calls method to fill the Comboboxes
+     */
     public void fillEditBoxes() {
         SwingUtilities.invokeLater(() -> GUI_add.fillBoxes(cbGender, cbNationality, cbInsurance));
     }
 
+    /**
+     * fills the TextFields of the GUI with the information of the to be edited patient
+     * @param p patient to be edited
+     */
     public void fillTextFields(Patient p) {
         SwingUtilities.invokeLater(() -> {
             tfFirstName.setText(p.getFirstNamePatients());
@@ -106,6 +118,11 @@ public class GUI_edit extends JFrame {
         });
     }
 
+    /**
+     * edits patient
+     * @param id id of patient to be edited
+     * @return boolean if editing was successfully
+     */
     public boolean editPatient(int id) {
 
         return Patient.savePatient(
@@ -124,6 +141,9 @@ public class GUI_edit extends JFrame {
         );
     }
 
+    /**
+     * sets layout of the GUI
+     */
     public void setLayout() {
         setSize(370, 460);
         setLocationRelativeTo(null); // Zentriert das Fenster auf dem Bildschirm
@@ -139,6 +159,9 @@ public class GUI_edit extends JFrame {
         );
     }
 
+    /**
+     * sets color of the GUI
+     */
     public void addColor() {
         SetLayout.setAddEditColor(contentPane, panel1, panel2, btEdit, btReturn);
     }

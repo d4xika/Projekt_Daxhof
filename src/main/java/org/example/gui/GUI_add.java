@@ -39,6 +39,10 @@ public class GUI_add extends JFrame {
     private JPanel panel1;
     private JPanel panel2;
 
+    /**
+     * constructor of GUI_add
+     * calls methods for the GUI and contains ActionListeners for buttons
+     */
     public GUI_add() {
         setTitle("Add Patient");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,10 +92,19 @@ public class GUI_add extends JFrame {
 
     }
 
+    /**
+     * calls method to fill the Comboboxes
+     */
     public void fillAddBoxes() {
         SwingUtilities.invokeLater(() -> fillBoxes(cbGender, cbNationality, cbInsurance));
     }
 
+    /**
+     * fills comboboxes with the corresponding lists from SQL
+     * @param cbGender combobox with genders
+     * @param cbNationality combobox with nationalities
+     * @param cbInsurance combobox with insurances
+     */
     public static void fillBoxes(JComboBox<Gender> cbGender, JComboBox<Nationality> cbNationality, JComboBox<Insurance> cbInsurance) {
 
         List<Gender> genders = Patient.getGenderList();
@@ -104,6 +117,10 @@ public class GUI_add extends JFrame {
         insurances.forEach(cbInsurance::addItem);
     }
 
+    /**
+     * adds a new patient to the database
+     * @return boolean if adding was successfully
+     */
     public boolean addNewPatient() {
         try {Patient.savePatient(
                 0,
@@ -127,6 +144,9 @@ public class GUI_add extends JFrame {
 
     }
 
+    /**
+     * sets layout of the GUI
+     */
     public void setLayout() {
         setSize(370, 460);
         setLocationRelativeTo(null);
@@ -143,6 +163,9 @@ public class GUI_add extends JFrame {
         );
     }
 
+    /**
+     * sets color of the GUI
+     */
     public void addColor() {
         SetLayout.setAddEditColor(contentPane, panel1, panel2, btAdd, btReturn);
     }

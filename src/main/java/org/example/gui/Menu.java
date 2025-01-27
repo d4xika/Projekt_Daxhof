@@ -10,6 +10,11 @@ import java.util.concurrent.ExecutionException;
 
 public class Menu {
 
+    /**
+     * exports a table of patient to a CSV file
+     * after a selected location writes a file with the patients and saves it
+     * @param tPatients table of patients
+     */
     public static void exportToCSV(JTable tPatients) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setBackground(SetLayout.cBackground);
@@ -61,6 +66,11 @@ public class Menu {
         }
     }
 
+    /**
+     * exports a single patient to a CSV file
+     * after a selected location writes a file with the patient and saves it
+     * @param tPatients table of patients
+     */
     public static void exportPatientToCSV(JTable tPatients) {
         int selectedRow = tPatients.getSelectedRow();
         if (selectedRow == -1) {
@@ -122,6 +132,11 @@ public class Menu {
         }
     }
 
+    /**
+     * prints the table of patients
+     * uses the integrated print method
+     * @param tPatients table of patients
+     */
     public static void printTable(JTable tPatients) {
         //SwingWorker für Drucken von Tabelle
         SwingWorker<Void, Void> printWorker = new SwingWorker<>() {
