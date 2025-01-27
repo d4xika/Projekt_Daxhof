@@ -7,6 +7,10 @@ import java.util.Locale;
 
 public class Main {
 
+    /**
+     * starts the program with the login window
+     * @param args
+     */
     public static void main(String[] args) {
 
         Locale.setDefault(Locale.ENGLISH);

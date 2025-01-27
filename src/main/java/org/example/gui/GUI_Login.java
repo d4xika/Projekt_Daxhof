@@ -12,6 +12,10 @@ public class GUI_Login extends JFrame {
     private JButton btLogin;
     private JLabel lWelcome, lUser, lPassword;
 
+    /**
+     * constructor of the GUI_Login
+     * calls methods for the GUI and contains ActionListeners for buttons
+     */
     public GUI_Login() {
         setTitle("Login");
         setContentPane(contentPane);
@@ -68,6 +72,10 @@ public class GUI_Login extends JFrame {
         });
     }
 
+    /**
+     * checks if user and password written in to the fields is correct
+     * @return boolean if data is correct
+     */
     private boolean checkData() {
         boolean check = false;
         String user = "doctor";
@@ -87,6 +95,9 @@ public class GUI_Login extends JFrame {
         return check;
     }
 
+    /**
+     * sets layout of the GUI
+     */
     public void setLayout() {
         setSize(350, 200);
         setLocationRelativeTo(null);
@@ -94,6 +105,9 @@ public class GUI_Login extends JFrame {
         SetLayout.setLoginLayout(contentPane, lWelcome, lUser, tfUser, lPassword, pfPassword, btLogin);
     }
 
+    /**
+     * sets color of the GUI
+     */
     public void addColor() {
         SetLayout.setLoginColor(contentPane, tfUser, pfPassword, btLogin);
     }

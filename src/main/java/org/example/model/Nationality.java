@@ -2,9 +2,14 @@ package org.example.model;
 
 public class Nationality {
 
-    int nationalityId;
-    String nationalityName;
+    private int nationalityId;
+    private String nationalityName;
 
+    /**
+     * constructor of Nationality
+     * @param nationalityId nationality ID
+     * @param nationalityName nationality name
+     */
     public Nationality(int nationalityId, String nationalityName) {
         this.nationalityId = nationalityId;
         this.nationalityName = nationalityName;
@@ -23,23 +28,44 @@ public class Nationality {
         return this.nationalityId == nationality.nationalityId;
     }
 
+    /**
+     * gets nationality ID
+     * @return nationality ID
+     */
     public int getNationalityId() {
         return nationalityId;
     }
 
+    /**
+     * sets nationality ID
+     * @param nationalityId nationality ID
+     */
     public void setNationalityId(int nationalityId) {
         this.nationalityId = nationalityId;
     }
 
+    /**
+     * get nationality name
+     * @return nationality name
+     */
     public String getNationalityName() {
         return nationalityName;
     }
 
+    /**
+     * set nationality name
+     * @param nationalityName nationalityname
+     */
     public void setNationalityName(String nationalityName) {
         this.nationalityName = nationalityName;
     }
 
     // Beispiel-Thread, um Nationalitäten parallel zu laden
+
+    /**
+     * example to load nationalities parallel
+     * @param args
+     */
     public static void main(String[] args) {
         // Erstellen von Threads, die gleichzeitig Nationalitäten laden
         Thread thread1 = new Thread(() -> {
