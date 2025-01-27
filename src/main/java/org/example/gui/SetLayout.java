@@ -16,10 +16,29 @@ import java.awt.*;
 
 public class SetLayout {
 
+    /**
+     * color of backgrounds
+     */
     public static final Color cBackground = new Color(202,255,112);
+    /**
+     * color of buttons
+     */
     static final Color cButton = new Color (162,205,90);
+    /**
+     * color of borders
+     */
     static final Color cBorder = new Color (110,139,61);
 
+    /**
+     * sets the layout of the login GUI
+     * @param contentPane content Pane of GUI
+     * @param lWelcome label of welcome
+     * @param lUser label of user
+     * @param tfUser TextField of user
+     * @param lPassword label of password
+     * @param pfPassword PasswordField of password
+     * @param btLogin login button
+     */
     public static void setLoginLayout (JPanel contentPane, JLabel lWelcome, JLabel lUser, JTextField tfUser,
                                 JLabel lPassword, JPasswordField pfPassword, JButton btLogin) {
 
@@ -68,6 +87,14 @@ public class SetLayout {
         gbc.anchor = GridBagConstraints.EAST;
         contentPane.add(pfPassword, gbc);
     }
+
+    /**
+     * sets the color of the login GUI
+     * @param contentPane content Pane of GUI
+     * @param tfUser TextField of user
+     * @param pfPassword PasswordField of user
+     * @param btLogin login button
+     */
     public static void setLoginColor (JPanel contentPane, JTextField tfUser, JPasswordField pfPassword, JButton btLogin){
 
         contentPane.setBackground(cBackground);
@@ -79,7 +106,37 @@ public class SetLayout {
         pfPassword.setBorder(BorderFactory.createLineBorder(cBorder));
     }
 
-    public static void setAddEditLayout(JPanel panel1, JLabel lFirstName, JLabel lLastName, JLabel lSVN, JLabel lBirthDate, JLabel lStreet, JLabel lStreetNumber, JLabel lPostalCode, JLabel lCity, JLabel lGender, JLabel lNationality, JLabel lInsurance, JPanel panel2, JTextField tfFirstName, JTextField tfLastName, JTextField tfSVN, JTextField tfBirthDate, JTextField tfStreet, JTextField tfStreetNumber, JTextField tfPostalCode, JTextField tfCity, JComboBox<Gender> cbGender, JComboBox<Nationality> cbNationality, JComboBox<Insurance> cbInsurance, JPanel contentPane, JButton btReturn, JButton btAdd) {
+    /**
+     * sets the layout of add and edit GUI
+     * @param panel1 first panel with labels
+     * @param lFirstName label of first name
+     * @param lLastName label of last name
+     * @param lSVN label of SVN
+     * @param lBirthDate label of birthdate
+     * @param lStreet label of street
+     * @param lStreetNumber label of street number
+     * @param lPostalCode label of postal code
+     * @param lCity label of city
+     * @param lGender label of gender
+     * @param lNationality label of nationality
+     * @param lInsurance label of insurance
+     * @param panel2 second label with TextFields
+     * @param tfFirstName TextField of first name
+     * @param tfLastName TextField of last name
+     * @param tfSVN TextField of SVN
+     * @param tfBirthDate TextField of birthdate
+     * @param tfStreet TextField of street
+     * @param tfStreetNumber TextField of street number
+     * @param tfPostalCode TextField of postal code
+     * @param tfCity TextField of city
+     * @param cbGender ComboBox of Gender
+     * @param cbNationality ComboBox of Nationality
+     * @param cbInsurance Combobox of Insurance
+     * @param contentPane content Pane of GUI
+     * @param btReturn return button
+     * @param btAddEdit add or edit button
+     */
+    public static void setAddEditLayout(JPanel panel1, JLabel lFirstName, JLabel lLastName, JLabel lSVN, JLabel lBirthDate, JLabel lStreet, JLabel lStreetNumber, JLabel lPostalCode, JLabel lCity, JLabel lGender, JLabel lNationality, JLabel lInsurance, JPanel panel2, JTextField tfFirstName, JTextField tfLastName, JTextField tfSVN, JTextField tfBirthDate, JTextField tfStreet, JTextField tfStreetNumber, JTextField tfPostalCode, JTextField tfCity, JComboBox<Gender> cbGender, JComboBox<Nationality> cbNationality, JComboBox<Insurance> cbInsurance, JPanel contentPane, JButton btReturn, JButton btAddEdit) {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -154,17 +211,26 @@ public class SetLayout {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(7,10,15,15);
         gbc.anchor = GridBagConstraints.CENTER;
-        contentPane.add(btAdd, gbc);
+        contentPane.add(btAddEdit, gbc);
     }
-    public static void setAddEditColor(JPanel contentPane, JPanel panel1, JPanel panel2, JButton btAdd, JButton btReturn) {
+
+    /**
+     * sets the color of add and edit GUI
+     * @param contentPane content Pane of GUI
+     * @param panel1 first panel
+     * @param panel2 second panel
+     * @param btAddEdit add or edit Button
+     * @param btReturn return Button
+     */
+    public static void setAddEditColor(JPanel contentPane, JPanel panel1, JPanel panel2, JButton btAddEdit, JButton btReturn) {
 
         contentPane.setBackground(cBackground);
         panel1.setBackground(cBackground);
         panel2.setBackground(cBackground);
 
-        btAdd.setBackground(cButton);
+        btAddEdit.setBackground(cButton);
         btReturn.setBackground(cButton);
-        btAdd.setBorder(BorderFactory.createLineBorder(cBorder));
+        btAddEdit.setBorder(BorderFactory.createLineBorder(cBorder));
         btReturn.setBorder(BorderFactory.createLineBorder(cBorder));
 
         Border bTf = BorderFactory.createCompoundBorder(
@@ -178,6 +244,19 @@ public class SetLayout {
             }
         }
     }
+
+    /**
+     * sets layout of SelectOption GUI
+     * @param contentPane content Pane of GUI
+     * @param tfPatientName TextField of patient name
+     * @param spPatientsFound scroll panel of found patients
+     * @param lEnter label of enter
+     * @param pButton panel with buttons
+     * @param btSearch search button
+     * @param btAdd add button
+     * @param btEdit edit button
+     * @param btDelete delete button
+     */
     public static void setSOLayout (JPanel contentPane, JTextField tfPatientName, JScrollPane spPatientsFound, JLabel lEnter,
                                     JPanel pButton, JButton btSearch, JButton btAdd, JButton btEdit, JButton btDelete) {
 
@@ -241,6 +320,17 @@ public class SetLayout {
         gbc.fill = GridBagConstraints.BOTH;
         contentPane.add(spPatientsFound, gbc);
     }
+
+    /**
+     * sets color of SelectOption GUI
+     * @param contentPane content Pane of GUI
+     * @param spPatientsFound scroll panel of found patients
+     * @param pButton panel with buttons
+     * @param btSearch search button
+     * @param btAdd add button
+     * @param btEdit edit button
+     * @param btDelete delete button
+     */
     public static void setSOColor (JPanel contentPane, JScrollPane spPatientsFound, JPanel pButton,
                                    JButton btSearch, JButton btAdd, JButton btEdit, JButton btDelete){
 
@@ -266,6 +356,11 @@ public class SetLayout {
                 new LineBorder(cBorder),
                 new EmptyBorder(2,5,2,5)));
     }
+
+    /**
+     * sets size of patient table
+     * @param tPatients table of patients
+     */
     public static void customizeTable(JTable tPatients) {
 
         TableColumnModel columnModel = tPatients.getColumnModel();
